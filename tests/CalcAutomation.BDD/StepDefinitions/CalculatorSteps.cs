@@ -44,12 +44,37 @@ public sealed class CalculatorSteps
     [Then("the display should show {int}")]
     public void ThenTheDisplayShouldShow(int expected)
     {
+        var text = GetDisplayText();
+        // Windows Calculator formats large numbers with thousands separators; strip them before comparing.
+        var normalized = text.Replace(",", "");
+        Assert.That(normalized, Does.Contain(expected.ToString()),
+            $"Expected display to contain '{expected}', but it shows: '{text}'");
+    }
+
+    // Handles quoted string values in Gherkin: Then the display should show "0.25"
+    [Then("the display should show {string}")]
+    public void ThenTheDisplayShouldShowString(string expected)
+    {
+        var text = GetDisplayText();
+        Assert.That(text, Does.Contain(expected),
+            $"Expected display to contain '{expected}', but it shows: '{text}'");
+    }
+
+    // Partial-match step: Then the display should contain "Cannot divide by zero"
+    [Then("the display should contain {string}")]
+    public void ThenTheDisplayShouldContain(string expected)
+    {
+        var text = GetDisplayText();
+        Assert.That(text, Does.Contain(expected),
+            $"Expected display to contain '{expected}', but it shows: '{text}'");
+    }
+
+    private string GetDisplayText()
+    {
         var refs = _ctx.SnapshotAndIndex();
         Assert.That(refs.TryGetValue("display", out var displayRef), Is.True,
             "Could not find the display element in the accessibility tree");
-        var text = _ctx.Fla.GetText(displayRef!);
-        Assert.That(text, Does.Contain(expected.ToString()),
-            $"Expected display to contain '{expected}', but it shows: '{text}'");
+        return _ctx.Fla.GetText(displayRef!);
     }
 
     // ── Helpers ──────────────────────────────────────────────────────────────
