@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/CalcAutomation.Core/CalcAutomation.Core.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/CalcAutomation.Tests/CalcAutomation.Tests.csproj" />
+  </Folder>
+</Solution>

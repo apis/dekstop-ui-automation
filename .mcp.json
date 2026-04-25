@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "fla-ui": {
+      "type": "stdio",
+      "command": "dotnet",
+      "args": [
+        "run",
+        "--project",
+        "C:\\sandbox\\FlaUI-MCP\\src\\FlaUI.Mcp"
+      ],
+      "env": {}
+    }
+  }
+}
