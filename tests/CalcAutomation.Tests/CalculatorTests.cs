@@ -11,22 +11,34 @@ namespace CalcAutomation.Tests;
 [Apartment(ApartmentState.STA)] // UIA3 requires STA
 public class CalculatorTests
 {
+    // Named mutex shared with CalcAutomation.BDD — ensures only one test assembly
+    // accesses the single-instance Windows Calculator at a time, even when dotnet test
+    // runs both assemblies in parallel worker processes.
+    private static readonly Mutex CalcMutex = new(false, "CalcAutomationCalculator");
+
     private FlaUiEngine _fla = null!;
     private string _handle = null!;
 
     [OneTimeSetUp]
     public void LaunchCalculator()
     {
+        try { CalcMutex.WaitOne(); } catch (AbandonedMutexException) { /* previous run crashed — OK */ }
         _fla = new FlaUiEngine();
         _handle = _fla.Launch("calc.exe");
-        Thread.Sleep(1500); // give UWP time to finish rendering
     }
 
     [OneTimeTearDown]
     public void CloseCalculator()
     {
-        _fla.Close(_handle);
-        _fla.Dispose();
+        try
+        {
+            _fla.Close(_handle);
+            _fla.Dispose();
+        }
+        finally
+        {
+            CalcMutex.ReleaseMutex();
+        }
     }
 
     [Test]

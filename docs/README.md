@@ -1,37 +1,46 @@
 # CalcAutomation — Windows UI Test Automation with FlaUI + Claude AI
 
-A .NET 10 solution that automates `calc.exe` using two complementary approaches:
+A .NET 10 solution that automates `calc.exe` using three complementary approaches:
 
 1. **Direct FlaUI** — deterministic, fast tests that click by accessibility ref IDs
-2. **AI-driven agent** — natural-language test instructions executed by Claude via tool use
+2. **AI-driven agent (Claude)** — natural-language instructions executed by Claude via tool use
+3. **AI-driven agent (Ollama)** — same pattern, backed by a local model running in Ollama
+
+A fourth layer, **BDD / Reqnroll**, wraps the direct FlaUI approach in Gherkin feature files so QA engineers can read and extend tests without writing C#.
 
 ---
 
 ## Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│  Test Layer  (NUnit)                                        │
-│  ┌─────────────────────┐  ┌───────────────────────────────┐ │
-│  │  CalculatorTests    │  │  AgentCalculatorTests         │ │
-│  │  (direct FlaUI)     │  │  (natural language → Claude)  │ │
-│  └────────┬────────────┘  └──────────────┬────────────────┘ │
-└───────────│──────────────────────────────│──────────────────┘
-            │                              │
-            ▼                              ▼
-┌───────────────────────┐    ┌─────────────────────────────┐
-│     FlaUiEngine       │◄───│      CalculatorAgent        │
-│  Launch / Snapshot    │    │   (Anthropic tool-use loop) │
-│  Click / GetText      │    └─────────────────────────────┘
-│  Type / Close         │                 │
-└───────────────────────┘                 ▼
-            │                 ┌───────────────────────┐
-            ▼                 │    AnthropicClient    │
-     Windows UIA3             │  POST /v1/messages    │
-     (FlaUI.UIA3)             │  with tool schemas    │
-            │                 └───────────────────────┘
-            ▼
-       calc.exe
+┌──────────────────────────────────────────────────────────────────────────────┐
+│  Test Layer  (NUnit)                                                         │
+│                                                                              │
+│  ┌─────────────────────┐  ┌───────────────────────┐  ┌──────────────────┐   │
+│  │  CalculatorTests    │  │  AgentCalculatorTests  │  │ OllamaAgent      │   │
+│  │  (direct FlaUI)     │  │  (Claude tool-use)    │  │ CalculatorTests  │   │
+│  └────────┬────────────┘  └──────────┬────────────┘  └───────┬──────────┘   │
+│           │                          │                        │              │
+│  ┌────────┴──────────────┐           │                        │              │
+│  │  CalcAutomation.BDD   │           │                        │              │
+│  │  (Reqnroll/Gherkin)   │           │                        │              │
+│  └────────┬──────────────┘           │                        │              │
+└───────────│──────────────────────────│────────────────────────│──────────────┘
+            │                          │                        │
+            ▼                          ▼                        ▼
+┌───────────────────────┐  ┌──────────────────────┐  ┌──────────────────────┐
+│     FlaUiEngine       │◄─│   CalculatorAgent    │  │ OllamaCalculator     │
+│  Launch / Snapshot    │  │  (Anthropic tool-use │  │ Agent                │
+│  Click / GetText      │  │   loop)              │  │ (Ollama tool-use     │
+│  Type / Close         │  └──────────┬───────────┘  │  loop)               │
+└───────────────────────┘             │               └──────────┬───────────┘
+            │                         ▼                          ▼
+            ▼               ┌──────────────────────┐  ┌──────────────────────┐
+     Windows UIA3           │   AnthropicClient    │  │    OllamaClient      │
+     (FlaUI.UIA3)           │  POST /v1/messages   │  │  POST /v1/chat/      │
+            │               └──────────────────────┘  │  completions         │
+            ▼                          │               └──────────────────────┘
+       calc.exe             Anthropic API (cloud)      Ollama (localhost:11434)
 ```
 
 ### The Snapshot-Ref Pattern
@@ -50,7 +59,7 @@ Instead of guessing screen coordinates, the engine reads the **accessibility tre
     - button "Equals" [ref=w1e38]
 ```
 
-Claude reads this tree, maps names to refs, and issues tool calls — no coordinates ever involved.
+Both Claude and Ollama read this text tree, map names to refs, and issue tool calls — no coordinates ever involved.
 
 ---
 
@@ -60,57 +69,92 @@ Claude reads this tree, maps names to refs, and issues tool calls — no coordin
 CalcAutomation/
 ├── CalcAutomation.slnx
 ├── docs/
-│   └── README.md                      ← this file
+│   └── README.md                          ← this file
 ├── src/
 │   └── CalcAutomation.Core/
-│       ├── FlaUiEngine.cs             ← FlaUI wrapper (launch/snapshot/click/get_text)
-│       ├── AnthropicClient.cs         ← HTTP client for Anthropic Messages API
-│       ├── CalculatorAgent.cs         ← AI agent tool-use loop
+│       ├── FlaUiEngine.cs                 ← FlaUI wrapper (launch/snapshot/click/get_text)
+│       ├── AnthropicClient.cs             ← HTTP client for Anthropic Messages API
+│       ├── OllamaClient.cs                ← HTTP client for Ollama chat endpoint
+│       ├── CalculatorAgent.cs             ← Claude AI agent tool-use loop
+│       ├── OllamaCalculatorAgent.cs       ← Ollama AI agent tool-use loop
 │       └── Models/
-│           └── AnthropicModels.cs     ← Request / response types
+│           ├── AnthropicModels.cs         ← Anthropic request/response types
+│           └── OllamaModels.cs            ← Ollama (OpenAI-compatible) types
 └── tests/
-    └── CalcAutomation.Tests/
-        ├── CalculatorTests.cs         ← Direct FlaUI tests (no AI)
-        └── AgentCalculatorTests.cs    ← AI-driven natural-language tests
+    ├── CalcAutomation.Tests/
+    │   ├── CalculatorTests.cs             ← Direct FlaUI tests (no AI)
+    │   ├── AgentCalculatorTests.cs        ← Claude AI tests
+    │   └── OllamaAgentCalculatorTests.cs  ← Ollama AI tests
+    └── CalcAutomation.BDD/
+        ├── Features/
+        │   └── Calculator.feature         ← Gherkin scenarios (edit this to add tests)
+        ├── StepDefinitions/
+        │   └── CalculatorSteps.cs         ← Gherkin → FlaUI bindings
+        ├── Hooks/
+        │   └── CalculatorHooks.cs         ← BeforeScenario / AfterScenario lifecycle
+        ├── Support/
+        │   └── CalculatorContext.cs       ← Per-scenario shared state + FlaUI helpers
+        ├── AssemblyAttributes.cs          ← STA + no-parallel constraints
+        └── reqnroll.json                  ← Reqnroll configuration
 ```
 
 ---
 
 ## Prerequisites
 
-| Requirement | Version |
-|---|---|
-| .NET SDK | 10.0+ |
-| Windows | 10 / 11 (UIA3 required) |
-| calc.exe | Ships with Windows |
-| ANTHROPIC_API_KEY | Only for `AgentCalculatorTests` |
+| Requirement | Version | Required for |
+|---|---|---|
+| .NET SDK | 10.0+ | everything |
+| Windows | 10 / 11 | UIA3 COM interop |
+| calc.exe | Ships with Windows | all tests |
+| `ANTHROPIC_API_KEY` env var | — | `AgentCalculatorTests` only |
+| Ollama running on `localhost:11434` | — | `OllamaAgentCalculatorTests` only |
+| Ollama model `gemma4:e4b` pulled | — | `OllamaAgentCalculatorTests` only |
 
-> **Note:** FlaUI.UIA3 5.x targets .NET Framework but runs fine on .NET 10 via COM interop. The NU1701 restore warnings are expected and harmless.
+> **FlaUI.UIA3 restore warning:** FlaUI.UIA3 5.x targets .NET Framework but runs fine on .NET 10 via COM interop. The `NU1701` restore warnings are expected and harmless.
+
+### Installing Ollama
+
+```powershell
+# Install Ollama from https://ollama.com then:
+ollama pull gemma4:e4b
+ollama serve          # starts the server on localhost:11434
+```
 
 ---
 
 ## Running the Tests
 
-### Direct FlaUI tests (fast, no API key needed)
+### Direct FlaUI tests (fast, no external dependencies)
 
 ```bash
-dotnet test --filter "Category!=Agent"
+dotnet test --filter "Category!=Agent&Category!=Ollama"
 ```
 
-These tests:
-- Launch `calc.exe` once per fixture
-- Snapshot the accessibility tree
-- Parse element names into a `name → ref` dictionary
-- Click buttons by ref and assert the display value
+These tests launch `calc.exe` once per fixture, snapshot the accessibility tree, parse element names into a `name → ref` dictionary, click buttons by ref, and assert the display value.
 
-### AI-driven tests (requires Anthropic API key)
+### BDD / Gherkin tests (same mechanics, human-readable)
+
+```bash
+dotnet test tests/CalcAutomation.BDD
+```
+
+Or filter by project when running the full solution:
+
+```bash
+dotnet test --filter "FullyQualifiedName~CalcAutomation.BDD"
+```
+
+These tests run the same FlaUI interactions as the direct tests, but the test cases are defined as Gherkin scenarios in `Features/Calculator.feature`. **QA engineers only need to edit the feature file** — no C# knowledge required to add new arithmetic scenarios.
+
+### Claude AI tests (requires Anthropic API key)
 
 ```powershell
 $env:ANTHROPIC_API_KEY = "sk-ant-..."
 dotnet test --filter "Category=Agent"
 ```
 
-These tests pass a plain-English instruction to `CalculatorAgent`, which runs a tool-use loop with Claude until the task is complete.
+These tests pass plain-English instructions to `CalculatorAgent`, which runs a Claude tool-use loop until the task is complete.
 
 **Example:**
 ```
@@ -118,42 +162,59 @@ These tests pass a plain-English instruction to `CalculatorAgent`, which runs a 
 → Agent result: "The display shows 12."
 ```
 
+### Ollama AI tests (requires local Ollama + model)
+
+```bash
+dotnet test --filter "Category=Ollama"
+```
+
+Same pattern as the Claude tests but uses a locally-running Ollama instance. Tests skip automatically with a clear message if Ollama is unreachable — they never fail the suite just because the service is down.
+
+**Note:** Ollama prompts are more prescriptive than Claude prompts (e.g., "Press Clear, then press Five, then Plus…") to compensate for local models being less capable at UI reasoning. The agent also handles a Gemma4-specific quirk where `finish_reason="stop"` is returned even when tool calls are present — see [Known Issues §8](#8-gemma4-emits-finish_reasonstop-even-with-tool-calls).
+
 ---
 
 ## Core Components
 
 ### `FlaUiEngine`
 
-Wraps `FlaUI.UIA3` with a snapshot-ref model.
+Wraps `FlaUI.UIA3` with a snapshot-ref model. Application-agnostic — works with any Windows process.
 
 | Method | Description |
 |---|---|
 | `Launch(app, args?)` | Start an application, returns handle like `"w1"` |
 | `Snapshot(handle?)` | Walk the accessibility tree, assign refs, return text tree |
-| `Click(ref)` | Invoke or mouse-click an element by ref |
+| `Click(ref)` | Invoke pattern first (no focus required), falls back to mouse click |
 | `GetText(ref)` | Read element Name or Value pattern |
 | `Type(text, ref?)` | Focus element and type text |
-| `Close(handle)` | Close the application |
+| `Close(handle)` | Close the application (tries Close button, WindowPattern, then process kill) |
 
-> Refs are valid only until the next `Snapshot()` call on the same window.
+> Refs are valid only until the next `Snapshot()` call on the same window. Always re-snapshot before looking up a ref after any interaction that might change the tree.
 
 ### `CalculatorAgent`
 
-Runs the Claude tool-use loop:
+Runs the Claude tool-use loop against Anthropic's hosted API:
 
-1. Send user instruction + tool schemas to Claude
-2. Claude responds with `tool_use` blocks
+1. Send user instruction + tool schemas to Claude (`POST /v1/messages`)
+2. Claude responds with `tool_use` content blocks
 3. Dispatch each tool call to `FlaUiEngine`
 4. Append tool results and repeat until `stop_reason == "end_turn"`
 5. Return Claude's final text answer
 
-**Tools exposed to Claude** (matching the fla-ui MCP schema):
-- `windows_launch`
-- `windows_snapshot`
-- `windows_click`
-- `windows_get_text`
-- `windows_type`
-- `windows_close`
+**Tools exposed to Claude:**
+`windows_launch`, `windows_snapshot`, `windows_click`, `windows_get_text`, `windows_type`, `windows_focus`, `windows_close`
+
+These match the `fla-ui` MCP server tool schema so the same FlaUiEngine can be used interchangeably from tests or from Claude Code via MCP.
+
+### `OllamaCalculatorAgent`
+
+Same tool-use loop pattern as `CalculatorAgent` but talks to a local Ollama instance via its **OpenAI-compatible** `/v1/chat/completions` endpoint. Key differences from the Claude agent:
+
+- **Message format:** uses OpenAI `tool_calls` / `tool` role instead of Anthropic `tool_use` / `tool_result`
+- **Argument normalization:** some local models serialize tool arguments as a JSON string rather than a JSON object; `NormalizeArgs()` handles both transparently
+- **`finish_reason` quirk:** Gemma4 returns `finish_reason="stop"` even when tool calls are present; the agent checks for `tool_calls` presence before trusting `finish_reason`
+- **More explicit prompts:** the system prompt walks through each step of the calculator workflow in detail (snapshot first, clear, click one button at a time) to compensate for local model limitations
+- **Configurable model and URL** via constructor parameters (defaults: `gemma4:e4b`, `http://localhost:11434`)
 
 ### `AnthropicClient`
 
@@ -165,21 +226,84 @@ x-api-key: <key>
 anthropic-version: 2023-06-01
 ```
 
+### `OllamaClient`
+
+HTTP client for Ollama's OpenAI-compatible chat endpoint.
+
+```
+POST http://localhost:11434/v1/chat/completions
+```
+
+Inserts the system prompt as the first message in the list (OpenAI convention) and sets `stream: false`.
+
+### BDD Layer (`CalcAutomation.BDD`)
+
+Built on **Reqnroll** (the .NET successor to SpecFlow), the BDD project exposes the same direct FlaUI tests as human-readable Gherkin scenarios.
+
+**How it works:**
+
+1. `CalculatorHooks` launches `calc.exe` in `[BeforeScenario]` and closes it in `[AfterScenario]`
+2. `CalculatorContext` is injected into both the hook class and step-definition class, sharing the `FlaUiEngine` handle and ref-indexing helpers across the scenario lifetime
+3. `CalculatorSteps` maps Gherkin phrases to FlaUI calls — QA never touches this file unless adding a new phrase pattern
+4. `Calculator.feature` is the only file QA needs to edit
+
+**Adding a new test case** (no C# required):
+
+To add `8 + 2 = 10` as a parameterised row, add one line to the Examples table in `Calculator.feature`:
+
+```gherkin
+| 8 | + | 2 | 10 |
+```
+
+To add a new named scenario, copy an existing `Scenario:` block and change the numbers.
+
+**Supported step phrases:**
+
+| Pattern | Example |
+|---|---|
+| `I add {n} and {m}` | I add 7 and 5 |
+| `I subtract {n} from {m}` | I subtract 4 from 10 |
+| `I multiply {n} by {m}` | I multiply 3 by 3 |
+| `I divide {n} by {m}` | I divide 20 by 4 |
+| `I calculate {n} {op} {m}` | I calculate 6 * 7 (operators: `+` `-` `*` `/`) |
+| `the display should show {n}` | the display should show 12 |
+
 ---
 
 ## Test Coverage
 
+### `CalcAutomation.Tests` — Direct FlaUI
+
 | Test | Type | Scenario |
 |---|---|---|
-| `Snapshot_ReturnsNonEmptyTree` | Direct | Accessibility tree is readable |
+| `Snapshot_ReturnsNonEmptyTree` | Direct | Accessibility tree is readable and contains refs |
 | `Addition_SevenPlusFive_Equals12` | Direct | 7 + 5 = 12 |
 | `Subtraction_TenMinusFour_Equals6` | Direct | 10 − 4 = 6 |
 | `Multiplication_ThreeTimesThree_Equals9` | Direct | 3 × 3 = 9 |
 | `Division_TwentyDividedByFour_Equals5` | Direct | 20 ÷ 4 = 5 |
-| `Agent_Adds_7_And_5` | Agent | NL: "Add 7 and 5" → 12 |
-| `Agent_Multiplies_6_By_8` | Agent | NL: "Multiply 6 by 8" → 48 |
-| `Agent_Performs_Chain_Calculation` | Agent | NL: "100 ÷ 4 − 3" → 22 |
-| `Agent_Verifies_Division_By_Zero_Behavior` | Agent | NL: edge case exploration |
+| `Agent_Adds_7_And_5` | Claude | NL: "Add 7 and 5" → 12 |
+| `Agent_Multiplies_6_By_8` | Claude | NL: "Multiply 6 by 8" → 48 |
+| `Agent_Performs_Chain_Calculation` | Claude | NL: "100 ÷ 4 − 3" → 22 |
+| `Agent_Verifies_Division_By_Zero_Behavior` | Claude | NL: edge-case exploration |
+| `Ollama_Adds_5_And_3` | Ollama | Step-by-step: 5 + 3 = 8 |
+| `Ollama_Multiplies_4_By_7` | Ollama | Step-by-step: 4 × 7 = 28 |
+| `Ollama_Subtracts_3_From_10` | Ollama | Step-by-step: 10 − 3 = 7 |
+| `Ollama_Divides_20_By_4` | Ollama | Step-by-step: 20 ÷ 4 = 5 |
+
+### `CalcAutomation.BDD` — Gherkin / Reqnroll
+
+| Scenario | Operator | Input | Expected |
+|---|---|---|---|
+| Add two numbers | + | 7, 5 | 12 |
+| Subtract two numbers | − | 10, 4 | 6 |
+| Multiply two numbers | × | 3, 3 | 9 |
+| Divide two numbers | ÷ | 20, 4 | 5 |
+| Parameterised: additional rows | + | 8, 2 | 10 |
+| Parameterised: additional rows | − | 15, 7 | 8 |
+| Parameterised: additional rows | × | 6, 7 | 42 |
+| Parameterised: additional rows | ÷ | 18, 3 | 6 |
+| Parameterised: additional rows | ÷ | 100, 4 | 25 |
+| Parameterised: additional rows | × | 9, 9 | 81 |
 
 ---
 
@@ -190,7 +314,7 @@ anthropic-version: 2023-06-01
 | Window resize | Breaks | Works |
 | DPI scaling | Breaks | Works |
 | Element discovery | Manual pixel hunt | Accessibility tree |
-| AI compatibility | Screenshots + vision model | Text tree + any model |
+| AI compatibility | Screenshots + vision model | Text tree + any text model |
 | CI headless support | Needs display server | Native UIA3 |
 
 ---
@@ -205,7 +329,7 @@ var tree = _fla.Snapshot(handle);
 // parse tree, find refs, interact
 ```
 
-For AI-driven testing of any app, pass a different instruction to `CalculatorAgent.RunAsync()` — or point the system prompt at a different executable.
+For AI-driven testing of any app, pass a different instruction to `CalculatorAgent.RunAsync()` or `OllamaCalculatorAgent.RunAsync()` — or point the system prompt at a different executable.
 
 ---
 
@@ -323,4 +447,63 @@ A regex like `\[ref=(\w+)\]` (requiring `]` right after the ref ID) will never m
 
 ```csharp
 var refMatch = Regex.Match(line, @"\[ref=(\w+)");
+```
+
+---
+
+### 8. Gemma4 emits `finish_reason="stop"` even with tool calls
+
+When using Ollama with the `gemma4:e4b` model, the `/v1/chat/completions` response sometimes includes both `tool_calls` in the message **and** `finish_reason="stop"`. The OpenAI spec says `finish_reason` should be `"tool_calls"` when tool calls are present, but Gemma4 does not follow this.
+
+**Symptom:** agent loop exits after the first tool call, ignoring the model's intent.
+
+**Fix:** check for the presence of `tool_calls` in the message content *before* checking `finish_reason`:
+
+```csharp
+var toolCalls = message["tool_calls"]?.AsArray();
+if (toolCalls != null && toolCalls.Count > 0)
+{
+    // execute tools regardless of finish_reason
+}
+else if (finishReason == "stop")
+{
+    break; // genuine end of turn
+}
+```
+
+`OllamaCalculatorAgent` applies this check on every turn.
+
+---
+
+### 9. Some local models return tool arguments as a JSON string, not a JSON object
+
+The OpenAI spec says `function.arguments` in a tool call should be a **JSON object** (parsed). Some local models (including older Ollama builds) return it as a **JSON string** — i.e., the arguments field itself is a quoted, escaped JSON string:
+
+```json
+{ "arguments": "{\"handle\": \"w1\"}" }   // string — needs parsing
+{ "arguments": { "handle": "w1" } }       // object — ready to use
+```
+
+**Fix:** normalize before dispatching:
+
+```csharp
+JsonNode NormalizeArgs(JsonNode? raw) =>
+    raw is JsonValue v && v.TryGetValue<string>(out var s)
+        ? JsonNode.Parse(s)!
+        : raw ?? new JsonObject();
+```
+
+`OllamaCalculatorAgent.NormalizeArgs()` handles both forms transparently.
+
+---
+
+### 10. BDD tests require STA thread and no parallel execution
+
+Reqnroll with NUnit generates test fixtures that run on MTA threads by default. FlaUI.UIA3 requires **STA** (single-threaded apartment), and the Calculator window cannot be shared across parallel test runs.
+
+**Fix:** add assembly-level NUnit attributes in `AssemblyAttributes.cs`:
+
+```csharp
+[assembly: Apartment(ApartmentState.STA)]
+[assembly: Parallelizable(ParallelScope.None)]
 ```

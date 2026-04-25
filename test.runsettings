@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <RunConfiguration>
+    <!--
+      Run one test assembly at a time (MaxCpuCount=1).
+      UI automation tests drive real windows on a shared desktop; running multiple
+      test assemblies in parallel causes Calculator windows from different suites to
+      interfere with each other via the Windows accessibility tree.
+    -->
+    <MaxCpuCount>1</MaxCpuCount>
+  </RunConfiguration>
+</RunSettings>

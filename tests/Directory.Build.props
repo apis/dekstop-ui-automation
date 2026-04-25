@@ -1,0 +1,8 @@
+<Project>
+  <PropertyGroup>
+    <!-- Auto-apply test.runsettings for all test projects under tests/.
+         This enforces MaxCpuCount=1 so UI automation assemblies run sequentially
+         and don't compete for the same desktop windows. -->
+    <RunSettingsFilePath>$(MSBuildThisFileDirectory)..\test.runsettings</RunSettingsFilePath>
+  </PropertyGroup>
+</Project>

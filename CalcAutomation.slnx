@@ -4,5 +4,6 @@
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/CalcAutomation.Tests/CalcAutomation.Tests.csproj" />
+    <Project Path="tests/CalcAutomation.BDD/CalcAutomation.BDD.csproj" />
   </Folder>
 </Solution>
