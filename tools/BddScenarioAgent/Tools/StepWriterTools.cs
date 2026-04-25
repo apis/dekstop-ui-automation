@@ -31,6 +31,12 @@ public static class StepWriterTools
         if (!File.Exists(path))
             return $"Error: step definitions file not found at '{path}'";
 
+        // Reject patterns that contain raw double quotes — they would break the [When("...")] attribute syntax.
+        // Use Reqnroll type parameters like {string} for values that appear quoted in Gherkin.
+        if (pattern.Contains('"'))
+            return $"Error: step pattern must not contain double-quote characters. " +
+                   $"Use {{string}} or {{int}} type parameters instead. Rejected pattern: {pattern}";
+
         var content = File.ReadAllText(path);
 
         if (content.Contains($"\"{pattern}\""))

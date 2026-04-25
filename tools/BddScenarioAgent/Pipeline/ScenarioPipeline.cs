@@ -115,45 +115,53 @@ public sealed class ScenarioPipeline(ILogger<ScenarioPipeline> logger)
                 logger.LogInformation("Step implementer: {R}", Truncate(stepResult, 200));
             }
 
-            // ── Stage 2b: Write new Gherkin scenarios ─────────────────────────
-            logger.LogInformation("Stage 2b – Writing new Gherkin scenarios");
+            // ── Stage 2b: Append scenarios ────────────────────────────────────
+            // Try to extract proposed_scenarios from the analysis JSON and append directly —
+            // this bypasses Gemma4's tendency to output Gherkin as prose instead of calling a tool.
+            logger.LogInformation("Stage 2b – Appending new Gherkin scenarios");
 
-            var writerTools = new List<AIFunction>
+            var genResult = string.Empty;
+            var proposedGherkin = ExtractProposedGherkin(analysis, iteration);
+
+            if (!string.IsNullOrWhiteSpace(proposedGherkin))
             {
-                AIFunctionFactory.Create(FileSystemTools.ReadFile),
-                AIFunctionFactory.Create(GherkinTools.AppendScenarios),
-                AIFunctionFactory.Create(GherkinTools.ProposeStep),
-            };
-            if (!string.IsNullOrWhiteSpace(opts.StepsFile))
-                writerTools.Add(AIFunctionFactory.Create(StepWriterTools.ListDefinedSteps));
+                logger.LogInformation("Extracted {N} proposed scenario(s) from analysis JSON — appending directly",
+                    proposedGherkin.Count(c => c == '\n' && proposedGherkin.Contains("Scenario:")));
+                genResult = GherkinTools.AppendScenarios(opts.FeatureFile, proposedGherkin);
+                logger.LogInformation("Append result: {R}", genResult);
+            }
             else
-                writerTools.Add(AIFunctionFactory.Create(GherkinTools.ReadStepPatterns));
+            {
+                // Fallback: let the writer agent decide what to write
+                logger.LogInformation("Could not extract scenarios from analysis JSON — falling back to writer agent");
 
-            var writerAgent = chatClient.AsAIAgent(
-                instructions: SystemPrompts.ScenarioWriter,
-                tools: [.. writerTools]);
+                var writerAgent = chatClient.AsAIAgent(
+                    instructions: SystemPrompts.ScenarioWriter,
+                    tools: [AIFunctionFactory.Create(GherkinTools.AppendScenarios)]);
 
-            var writerTask =
-                $"""
-                Write new Gherkin scenarios to the feature file based on this coverage analysis.
+                var writerTask =
+                    $"""
+                    Call append_scenarios with feature_file="{opts.FeatureFile}" and the new Gherkin scenarios below.
+                    Do not read any files. Do not output text. Just call append_scenarios immediately.
 
-                Coverage analysis:
-                {Truncate(analysis, 3000)}
+                    {Truncate(analysis, 2000)}
+                    """;
 
-                Feature file : {opts.FeatureFile}
-                Steps file   : {(string.IsNullOrWhiteSpace(opts.StepsFile) ? opts.StepsDir : opts.StepsFile)}
-                """;
+                genResult = GetText(await writerAgent.RunAsync(writerTask, cancellationToken: ct));
+                logger.LogInformation("Scenario writer fallback: {S}", Truncate(genResult, 200));
+            }
 
-            var genResult = GetText(await writerAgent.RunAsync(writerTask, cancellationToken: ct));
-            logger.LogInformation("Scenario writer: {S}", Truncate(genResult, 200));
-
-            // ── Stage 2b: Fix (if build broken after generation) ──────────────
+            // ── Stage 2c: Fix (if build broken after new steps/scenarios) ─────
             if (!string.IsNullOrWhiteSpace(opts.BddProject))
             {
                 var buildOutput = BuildTools.BuildProject(opts.BddProject);
                 if (buildOutput.Contains("FAILURE"))
                 {
-                    logger.LogWarning("Build failed after generation — invoking Fixer agent");
+                    // Extract just the error lines for logging clarity
+                    var errors = string.Join("\n", buildOutput.Split('\n')
+                        .Where(l => l.Contains(": error CS") || l.Contains("Build FAILED"))
+                        .Take(10));
+                    logger.LogWarning("Build failed after generation:\n{Errors}", errors);
 
                     var fixerAgent = chatClient.AsAIAgent(
                         instructions: SystemPrompts.Fixer,
@@ -168,10 +176,11 @@ public sealed class ScenarioPipeline(ILogger<ScenarioPipeline> logger)
                         $"""
                         The BDD project failed to build. Fix all compilation errors.
 
-                        Build output:
+                        Build errors (from dotnet build):
                         {Truncate(buildOutput, 3000)}
 
                         BDD project path: {opts.BddProject}
+                        Steps file path : {opts.StepsFile}
                         """,
                         cancellationToken: ct));
 
@@ -299,6 +308,59 @@ public sealed class ScenarioPipeline(ILogger<ScenarioPipeline> logger)
                                   : "");
         }
         catch { return null; }
+    }
+
+    private static string ExtractProposedGherkin(string analysis, int iteration)
+    {
+        try
+        {
+            var start = analysis.IndexOf('{');
+            if (start < 0) return string.Empty;
+
+            using var doc = JsonDocument.Parse(analysis[start..]);
+            var root = doc.RootElement;
+
+            if (!root.TryGetProperty("proposed_scenarios", out var scenariosEl))
+                return string.Empty;
+
+            var sb = new System.Text.StringBuilder();
+            sb.AppendLine($"  # ── Generated scenarios — iteration {iteration} ──────────────────────────────────");
+            sb.AppendLine();
+
+            var added = 0;
+            foreach (var s in scenariosEl.EnumerateArray())
+            {
+                var title    = s.TryGetProperty("title",       out var t) ? t.GetString() ?? "" : "";
+                var usesOnly = !s.TryGetProperty("uses_existing_steps", out var u) || u.GetBoolean();
+                var newPats  = s.TryGetProperty("new_step_patterns_needed", out var np)
+                    ? np.EnumerateArray().Count()
+                    : 0;
+
+                // Skip scenarios that need new step patterns not yet implemented
+                if (!usesOnly && newPats > 0) continue;
+                if (string.IsNullOrWhiteSpace(title)) continue;
+
+                sb.AppendLine($"  Scenario: {title}");
+
+                if (s.TryGetProperty("steps_sketch", out var steps))
+                {
+                    foreach (var step in steps.EnumerateArray())
+                    {
+                        var line = step.GetString() ?? "";
+                        // Remove leading Given if the background covers it
+                        if (line.TrimStart().StartsWith("Given the Calculator", StringComparison.OrdinalIgnoreCase))
+                            continue;
+                        sb.AppendLine($"    {line.TrimStart()}");
+                    }
+                }
+
+                sb.AppendLine();
+                added++;
+            }
+
+            return added > 0 ? sb.ToString() : string.Empty;
+        }
+        catch { return string.Empty; }
     }
 
     private static string BuildSummary(string featureFile, int totalAdded, List<string> iterations)
