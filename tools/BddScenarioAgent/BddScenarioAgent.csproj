@@ -2,12 +2,13 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net10.0</TargetFramework>
+    <!-- net10.0-windows required for FlaUI UIA3 COM interop via CalcAutomation.Core -->
+    <TargetFramework>net10.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AssemblyName>bddgen</AssemblyName>
     <RootNamespace>BddScenarioAgent</RootNamespace>
-    <!-- Run from the repo root so relative paths in appsettings.json resolve correctly -->
+    <!-- Run from the repo root so relative paths resolve correctly -->
     <RunWorkingDirectory>$(MSBuildThisFileDirectory)..\..</RunWorkingDirectory>
   </PropertyGroup>
 
@@ -16,6 +17,10 @@
     <PackageReference Include="Microsoft.Agents.AI" Version="*" />
     <PackageReference Include="Microsoft.Extensions.AI.Ollama" Version="*-*" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CalcAutomation.Core\CalcAutomation.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
