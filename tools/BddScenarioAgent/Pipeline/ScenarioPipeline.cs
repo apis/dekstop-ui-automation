@@ -83,59 +83,69 @@ public sealed class ScenarioPipeline(ILogger<ScenarioPipeline> logger)
             var analysis = GetText(await analyzerAgent.RunAsync(analyzerTask, cancellationToken: ct));
             logger.LogDebug("Analysis:\n{A}", Truncate(analysis, 600));
 
-            // ── Stage 2: Generate ─────────────────────────────────────────────
-            logger.LogInformation("Stage 2 – Generating new scenarios and step definitions");
+            // ── Stage 2a: Implement missing step definitions ──────────────────
+            logger.LogInformation("Stage 2a – Implementing missing step definitions");
 
-            var generatorTools = new List<AIFunction>
+            if (!string.IsNullOrWhiteSpace(opts.StepsFile))
+            {
+                var stepTools = new List<AIFunction>
+                {
+                    AIFunctionFactory.Create(StepWriterTools.ListDefinedSteps),
+                    AIFunctionFactory.Create(StepWriterTools.AddStepDefinition),
+                };
+                if (!string.IsNullOrWhiteSpace(opts.BddProject))
+                    stepTools.Add(AIFunctionFactory.Create(BuildTools.BuildProject));
+
+                var stepAgent = chatClient.AsAIAgent(
+                    instructions: SystemPrompts.StepImplementer,
+                    tools: [.. stepTools]);
+
+                var stepTask =
+                    $"""
+                    Implement any missing Reqnroll step definitions identified in this coverage analysis.
+
+                    Coverage analysis:
+                    {Truncate(analysis, 3000)}
+
+                    Steps file  : {opts.StepsFile}
+                    BDD project : {opts.BddProject}
+                    """;
+
+                var stepResult = GetText(await stepAgent.RunAsync(stepTask, cancellationToken: ct));
+                logger.LogInformation("Step implementer: {R}", Truncate(stepResult, 200));
+            }
+
+            // ── Stage 2b: Write new Gherkin scenarios ─────────────────────────
+            logger.LogInformation("Stage 2b – Writing new Gherkin scenarios");
+
+            var writerTools = new List<AIFunction>
             {
                 AIFunctionFactory.Create(FileSystemTools.ReadFile),
-                AIFunctionFactory.Create(FileSystemTools.WriteFile),
-                AIFunctionFactory.Create(GherkinTools.ReadStepPatterns),
                 AIFunctionFactory.Create(GherkinTools.AppendScenarios),
                 AIFunctionFactory.Create(GherkinTools.ProposeStep),
             };
-
-            // Wire up step-writer tools only when a steps file is configured
             if (!string.IsNullOrWhiteSpace(opts.StepsFile))
-            {
-                generatorTools.Add(AIFunctionFactory.Create(StepWriterTools.AddStepDefinition));
-                generatorTools.Add(AIFunctionFactory.Create(StepWriterTools.ListDefinedSteps));
-            }
+                writerTools.Add(AIFunctionFactory.Create(StepWriterTools.ListDefinedSteps));
+            else
+                writerTools.Add(AIFunctionFactory.Create(GherkinTools.ReadStepPatterns));
 
-            if (!string.IsNullOrWhiteSpace(opts.BddProject))
-            {
-                generatorTools.Add(AIFunctionFactory.Create(BuildTools.BuildProject));
-            }
+            var writerAgent = chatClient.AsAIAgent(
+                instructions: SystemPrompts.ScenarioWriter,
+                tools: [.. writerTools]);
 
-            var generatorAgent = chatClient.AsAIAgent(
-                instructions: SystemPrompts.Generator,
-                tools: [.. generatorTools]);
-
-            var generatorTask =
+            var writerTask =
                 $"""
-                Add new Gherkin scenarios to the Calculator feature file.
+                Write new Gherkin scenarios to the feature file based on this coverage analysis.
 
-                Coverage analysis (from Stage 1):
-                {analysis}
+                Coverage analysis:
+                {Truncate(analysis, 3000)}
 
-                Feature file     : {opts.FeatureFile}
-                Step definitions : {opts.StepsDir}
-                Steps file       : {(string.IsNullOrWhiteSpace(opts.StepsFile) ? "(not configured — propose only)" : opts.StepsFile)}
-                BDD project      : {(string.IsNullOrWhiteSpace(opts.BddProject) ? "(not configured — skip build)" : opts.BddProject)}
-                Proposals file   : {opts.ProposalsFile}
-
-                Steps:
-                1. Call read_file to read the current feature file
-                2. Call list_defined_steps (or read_step_patterns) to confirm available step vocabulary
-                3. For each proposed scenario that needs a new step:
-                   a. Call add_step_definition to implement the step in C#
-                   b. Call build_project to verify it compiles — fix any errors before continuing
-                4. Call append_scenarios once with all new Gherkin scenarios (6–12 new, distinct ones)
-                5. For steps that cannot be auto-implemented, call propose_step
+                Feature file : {opts.FeatureFile}
+                Steps file   : {(string.IsNullOrWhiteSpace(opts.StepsFile) ? opts.StepsDir : opts.StepsFile)}
                 """;
 
-            var genResult = GetText(await generatorAgent.RunAsync(generatorTask, cancellationToken: ct));
-            logger.LogInformation("Generator: {S}", Truncate(genResult, 200));
+            var genResult = GetText(await writerAgent.RunAsync(writerTask, cancellationToken: ct));
+            logger.LogInformation("Scenario writer: {S}", Truncate(genResult, 200));
 
             // ── Stage 2b: Fix (if build broken after generation) ──────────────
             if (!string.IsNullOrWhiteSpace(opts.BddProject))
@@ -238,6 +248,18 @@ public sealed class ScenarioPipeline(ILogger<ScenarioPipeline> logger)
     {
         if (response.Messages is not null)
         {
+            // Prefer the last assistant message that contains plain text (not a tool call blob)
+            foreach (var msg in response.Messages.Reverse())
+            {
+                if (msg.Role != ChatRole.Assistant) continue;
+                // Skip messages whose text looks like a raw tool-call JSON object
+                var t = msg.Text;
+                if (string.IsNullOrWhiteSpace(t)) continue;
+                var trimmed = t.TrimStart();
+                if (trimmed.StartsWith("{\"call_id") || trimmed.StartsWith("{\"name")) continue;
+                return t;
+            }
+            // Fallback: any non-empty text from any role
             foreach (var msg in response.Messages.Reverse())
             {
                 var t = msg.Text;
