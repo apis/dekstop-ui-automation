@@ -1,0 +1,36 @@
+default: build
+
+# Install / update NuGet packages (run once after cloning)
+setup:
+    dotnet add package Microsoft.Agents.AI
+    dotnet add package Microsoft.Extensions.AI.Ollama --prerelease
+    dotnet add package Microsoft.Extensions.Logging.Console
+
+# Build the project
+build:
+    dotnet build BddScenarioAgent.csproj
+
+# Run from the repo root (paths in appsettings.json are relative to repo root)
+run:
+    cd ../.. && dotnet run --project tools/BddScenarioAgent/BddScenarioAgent.csproj
+
+# Analyze coverage only — does NOT write to the feature file
+dry-run:
+    cd ../.. && dotnet run --project tools/BddScenarioAgent/BddScenarioAgent.csproj -- --dry-run
+
+# Run with verbose logging
+debug:
+    cd ../.. && dotnet run --project tools/BddScenarioAgent/BddScenarioAgent.csproj -- --log-level Debug
+
+# Run with a different model
+run-qwen:
+    cd ../.. && dotnet run --project tools/BddScenarioAgent/BddScenarioAgent.csproj -- --model qwen2.5:14b
+
+# Build a self-contained executable
+publish:
+    dotnet publish BddScenarioAgent.csproj -c Release -r win-x64 --self-contained -o bin/publish
+
+# Remove build artifacts
+clean:
+    dotnet clean BddScenarioAgent.csproj
+    rm -rf bin obj

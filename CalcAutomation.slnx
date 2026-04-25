@@ -6,4 +6,7 @@
     <Project Path="tests/CalcAutomation.Tests/CalcAutomation.Tests.csproj" />
     <Project Path="tests/CalcAutomation.BDD/CalcAutomation.BDD.csproj" />
   </Folder>
+  <Folder Name="/tools/">
+    <Project Path="tools/BddScenarioAgent/BddScenarioAgent.csproj" />
+  </Folder>
 </Solution>
