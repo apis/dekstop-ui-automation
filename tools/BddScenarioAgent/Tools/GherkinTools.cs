@@ -69,8 +69,11 @@ public static class GherkinTools
             return $"Error: feature file not found at '{path}'";
 
         var existing = File.ReadAllText(path).TrimEnd();
-        // Strip any markdown code fences the LLM may have wrapped the Gherkin in
-        var block = StripMarkdownFences(gherkin).Trim();
+        // Strip outer markdown fences, then remove any remaining backtick characters.
+        // Backticks are not valid Gherkin; the LLM sometimes emits `word` formatting.
+        var block = StripMarkdownFences(gherkin)
+            .Replace("`", "")
+            .Trim();
         File.WriteAllText(path, existing + "\n\n" + block + "\n");
 
         var lines = block.Split('\n').Length;

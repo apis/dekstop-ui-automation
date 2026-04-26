@@ -55,6 +55,9 @@ public sealed class ScenarioPipeline(ILogger<ScenarioPipeline> logger)
 
             var scenariosBefore = CountScenarios(opts.FeatureFile);
 
+            // ── Sanitize feature file (remove stray backticks from prior runs) ─
+            SanitizeFeatureFile(opts.FeatureFile);
+
             // ── Pre-check: fix any lingering build failures before analyzing ──
             if (!string.IsNullOrWhiteSpace(opts.BddProject))
             {
@@ -427,8 +430,9 @@ public sealed class ScenarioPipeline(ILogger<ScenarioPipeline> logger)
             """;
     }
 
-    // Extracts the first complete, balanced JSON object from arbitrary text.
-    // Handles trailing content after the closing `}` that would break JsonDocument.Parse.
+    // Extracts the first complete, balanced JSON object from arbitrary text,
+    // then sanitizes invalid escape sequences so JsonDocument.Parse succeeds
+    // even when the LLM emits \l, \s, \p etc. inside JSON strings.
     private static string ExtractJsonObject(string text)
     {
         var s = StripMarkdownFences(text);
@@ -448,9 +452,34 @@ public sealed class ScenarioPipeline(ILogger<ScenarioPipeline> logger)
             if (inString) continue;
 
             if      (c == '{') depth++;
-            else if (c == '}') { depth--; if (depth == 0) return s[start..(i + 1)]; }
+            else if (c == '}') { depth--; if (depth == 0) return SanitizeJsonEscapes(s[start..(i + 1)]); }
         }
         return string.Empty;
+    }
+
+    // Replace \X with X for any X that is not a valid JSON escape character.
+    // Valid JSON escapes: \" \\ \/ \b \f \n \r \t \uXXXX
+    private static readonly System.Text.RegularExpressions.Regex InvalidEscapeRegex =
+        new(@"\\([^""\\\/bfnrtu])", System.Text.RegularExpressions.RegexOptions.Compiled);
+    private static string SanitizeJsonEscapes(string json) =>
+        InvalidEscapeRegex.Replace(json, m => m.Groups[1].Value);
+
+    // Removes backtick characters and markdown code fences from a feature file in-place.
+    // Returns true if the file was modified.
+    private bool SanitizeFeatureFile(string featureFile)
+    {
+        if (!File.Exists(featureFile)) return false;
+        var lines   = File.ReadAllLines(featureFile);
+        var cleaned = lines
+            .Where(l => { var t = l.Trim(); return t != "`" && t != "``" && !t.StartsWith("```"); })
+            .Select(l => l.Replace("`", ""))
+            .ToArray();
+        if (cleaned.Length == lines.Length && !lines.Any(l => l.Contains('`'))) return false;
+        File.WriteAllLines(featureFile, cleaned);
+        logger.LogInformation(
+            "Sanitized feature file: removed {R} line(s) with backtick/fence content",
+            lines.Length - cleaned.Length);
+        return true;
     }
 
     private static string StripMarkdownFences(string text)
