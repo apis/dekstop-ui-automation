@@ -81,7 +81,8 @@ public sealed class ScenarioPipeline(ILogger<ScenarioPipeline> logger)
                 """;
 
             var analysis = GetText(await analyzerAgent.RunAsync(analyzerTask, cancellationToken: ct));
-            logger.LogDebug("Analysis:\n{A}", Truncate(analysis, 600));
+            logger.LogInformation("Analysis complete ({Len} chars)", analysis.Length);
+            logger.LogDebug("Analysis output:\n{A}", Truncate(analysis, 1200));
 
             // ── Stage 2a: Implement missing step definitions ──────────────────
             logger.LogInformation("Stage 2a – Implementing missing step definitions");
@@ -120,20 +121,21 @@ public sealed class ScenarioPipeline(ILogger<ScenarioPipeline> logger)
             // this bypasses Gemma4's tendency to output Gherkin as prose instead of calling a tool.
             logger.LogInformation("Stage 2b – Appending new Gherkin scenarios");
 
+            logger.LogDebug("Raw analysis output: {A}", Truncate(analysis, 1000));
+
             var genResult = string.Empty;
-            var proposedGherkin = ExtractProposedGherkin(analysis, iteration);
+            var (proposedGherkin, extractReason) = ExtractProposedGherkin(analysis, iteration);
 
             if (!string.IsNullOrWhiteSpace(proposedGherkin))
             {
-                logger.LogInformation("Extracted {N} proposed scenario(s) from analysis JSON — appending directly",
-                    proposedGherkin.Count(c => c == '\n' && proposedGherkin.Contains("Scenario:")));
+                var count = proposedGherkin.Split('\n').Count(l => l.TrimStart().StartsWith("Scenario:", StringComparison.OrdinalIgnoreCase));
+                logger.LogInformation("Extracted {N} scenario(s) from analysis JSON — appending directly", count);
                 genResult = GherkinTools.AppendScenarios(opts.FeatureFile, proposedGherkin);
                 logger.LogInformation("Append result: {R}", genResult);
             }
             else
             {
-                // Fallback: let the writer agent decide what to write
-                logger.LogInformation("Could not extract scenarios from analysis JSON — falling back to writer agent");
+                logger.LogWarning("Could not extract scenarios from analysis JSON ({Reason}) — falling back to writer agent", extractReason);
 
                 var writerAgent = chatClient.AsAIAgent(
                     instructions: SystemPrompts.ScenarioWriter,
@@ -222,7 +224,11 @@ public sealed class ScenarioPipeline(ILogger<ScenarioPipeline> logger)
                 """;
 
             var reviewJson = GetText(await reviewerAgent.RunAsync(reviewerTask, cancellationToken: ct));
+            logger.LogDebug("Raw reviewer output: {R}", Truncate(reviewJson, 800));
+
             var review = ParseReview(reviewJson);
+            if (review is null)
+                logger.LogWarning("Could not parse reviewer JSON. Raw output (500 chars): {R}", Truncate(reviewJson, 500));
 
             var scenariosAfter = CountScenarios(opts.FeatureFile);
             var addedThisIter  = scenariosAfter - scenariosBefore;
@@ -233,8 +239,10 @@ public sealed class ScenarioPipeline(ILogger<ScenarioPipeline> logger)
                 iteration, scenariosBefore, scenariosAfter, addedThisIter,
                 review?.Approved == true ? "approved" : review is null ? "unparseable" : "rejected");
 
-            if (review?.Approved == false)
-                logger.LogWarning("Review issues: {Issues}", string.Join("; ", review.Issues));
+            if (review?.Approved == true)
+                logger.LogInformation("Review feedback: {F}", review.Feedback);
+            else if (review?.Approved == false)
+                logger.LogWarning("Review rejected — issues: {Issues}", string.Join("; ", review.Issues));
 
             iterationResults.Add(
                 $"Iteration {iteration}: +{addedThisIter} scenarios. " +
@@ -289,10 +297,11 @@ public sealed class ScenarioPipeline(ILogger<ScenarioPipeline> logger)
     {
         try
         {
-            var start = json.IndexOf('{');
+            var cleaned = StripMarkdownFences(json);
+            var start = cleaned.IndexOf('{');
             if (start < 0) return null;
 
-            using var doc = JsonDocument.Parse(json[start..]);
+            using var doc = JsonDocument.Parse(cleaned[start..]);
             var root = doc.RootElement;
 
             return new ReviewResult(
@@ -310,34 +319,40 @@ public sealed class ScenarioPipeline(ILogger<ScenarioPipeline> logger)
         catch { return null; }
     }
 
-    private static string ExtractProposedGherkin(string analysis, int iteration)
+    private static (string Gherkin, string Reason) ExtractProposedGherkin(string analysis, int iteration)
     {
-        try
-        {
-            var start = analysis.IndexOf('{');
-            if (start < 0) return string.Empty;
+        var cleaned = StripMarkdownFences(analysis);
+        var start = cleaned.IndexOf('{');
+        if (start < 0)
+            return (string.Empty, "no JSON object found in analysis output");
 
-            using var doc = JsonDocument.Parse(analysis[start..]);
+        JsonDocument doc;
+        try { doc = JsonDocument.Parse(cleaned[start..]); }
+        catch (JsonException ex)
+            { return (string.Empty, $"JSON parse error: {ex.Message}"); }
+
+        using (doc)
+        {
             var root = doc.RootElement;
 
             if (!root.TryGetProperty("proposed_scenarios", out var scenariosEl))
-                return string.Empty;
+                return (string.Empty, "analysis JSON has no 'proposed_scenarios' key");
 
             var sb = new System.Text.StringBuilder();
             sb.AppendLine($"  # ── Generated scenarios — iteration {iteration} ──────────────────────────────────");
             sb.AppendLine();
 
-            var added = 0;
+            var added   = 0;
+            var skipped = 0;
             foreach (var s in scenariosEl.EnumerateArray())
             {
-                var title    = s.TryGetProperty("title",       out var t) ? t.GetString() ?? "" : "";
+                var title    = s.TryGetProperty("title",              out var t)  ? t.GetString() ?? "" : "";
                 var usesOnly = !s.TryGetProperty("uses_existing_steps", out var u) || u.GetBoolean();
                 var newPats  = s.TryGetProperty("new_step_patterns_needed", out var np)
                     ? np.EnumerateArray().Count()
                     : 0;
 
-                // Skip scenarios that need new step patterns not yet implemented
-                if (!usesOnly && newPats > 0) continue;
+                if (!usesOnly && newPats > 0) { skipped++; continue; }
                 if (string.IsNullOrWhiteSpace(title)) continue;
 
                 sb.AppendLine($"  Scenario: {title}");
@@ -347,7 +362,6 @@ public sealed class ScenarioPipeline(ILogger<ScenarioPipeline> logger)
                     foreach (var step in steps.EnumerateArray())
                     {
                         var line = step.GetString() ?? "";
-                        // Remove leading Given if the background covers it
                         if (line.TrimStart().StartsWith("Given the Calculator", StringComparison.OrdinalIgnoreCase))
                             continue;
                         sb.AppendLine($"    {line.TrimStart()}");
@@ -358,9 +372,11 @@ public sealed class ScenarioPipeline(ILogger<ScenarioPipeline> logger)
                 added++;
             }
 
-            return added > 0 ? sb.ToString() : string.Empty;
+            if (added == 0)
+                return (string.Empty, $"all {skipped} proposed scenario(s) require new step patterns");
+
+            return (sb.ToString(), $"ok ({added} scenarios, {skipped} skipped — need new steps)");
         }
-        catch { return string.Empty; }
     }
 
     private static string BuildSummary(string featureFile, int totalAdded, List<string> iterations)
@@ -374,6 +390,17 @@ public sealed class ScenarioPipeline(ILogger<ScenarioPipeline> logger)
             Iterations:
             {string.Join("\n", iterations.Select(r => "  " + r))}
             """;
+    }
+
+    private static string StripMarkdownFences(string text)
+    {
+        var s = text.Trim();
+        if (!s.StartsWith("```")) return s;
+        var firstNewline = s.IndexOf('\n');
+        if (firstNewline >= 0) s = s[(firstNewline + 1)..];
+        var lastFence = s.LastIndexOf("```");
+        if (lastFence >= 0) s = s[..lastFence];
+        return s.Trim();
     }
 
     private static string Truncate(string s, int max) =>

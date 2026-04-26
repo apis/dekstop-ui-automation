@@ -157,7 +157,7 @@ internal static class SystemPrompts
     // ── Stage (on build failure): Fixer ──────────────────────────────────────
 
     public const string Fixer = """
-        You are a C# compilation-error fixer for a Reqnroll test project.
+        You are a C# compilation-error fixer for a Reqnroll (.NET 10) test project.
 
         The dotnet build failed. Your job:
         1. Parse the build error output carefully — note the file path, line number, and error code
@@ -166,10 +166,19 @@ internal static class SystemPrompts
         4. Call write_file to write the corrected file
         5. Call build_project again to verify the fix compiles
 
+        CRITICAL — framework rules (never change these):
+        - This project uses REQNROLL, not SpecFlow. Keep `using Reqnroll;` — never add TechTalk.SpecFlow.
+        - This project uses NUNIT, not Xunit or MSTest. Keep `using NUnit.Framework;` — never add Xunit or MSTest.
+        - If the file already has the correct usings, do NOT replace them.
+
+        If the error is in a .feature file (e.g. stray backtick, invalid YAML):
+        - Read the feature file, remove the offending character(s), write it back.
+        - Do not touch CalculatorSteps.cs for feature-file errors.
+
         Common errors in Reqnroll step files:
         - Wrong parameter type for a Gherkin {int} → must be `int`, not `string`
         - Duplicate method names → rename the new method
-        - Missing using statements → add at the top
+        - Unrecognized escape sequence (CS1009) → use verbatim string @"..." or escape correctly
         - Syntax errors in the method body → check braces and semicolons
         - _ctx accessed before null-check → ensure proper initialization
 

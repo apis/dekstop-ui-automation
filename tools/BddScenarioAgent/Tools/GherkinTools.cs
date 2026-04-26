@@ -45,6 +45,19 @@ public static class GherkinTools
         return sb.ToString();
     }
 
+    private static string StripMarkdownFences(string text)
+    {
+        var s = text.Trim();
+        if (!s.StartsWith("```")) return s;
+        // Drop the opening fence line (```gherkin, ```feature, ``` etc.)
+        var firstNewline = s.IndexOf('\n');
+        if (firstNewline >= 0) s = s[(firstNewline + 1)..];
+        // Drop the closing fence
+        var lastFence = s.LastIndexOf("```");
+        if (lastFence >= 0) s = s[..lastFence];
+        return s.Trim();
+    }
+
     [Description(
         "Appends new Gherkin scenarios to the end of a .feature file. " +
         "Call this once with all generated scenarios after confirming they are correct.")]
@@ -56,7 +69,8 @@ public static class GherkinTools
             return $"Error: feature file not found at '{path}'";
 
         var existing = File.ReadAllText(path).TrimEnd();
-        var block    = gherkin.Trim();
+        // Strip any markdown code fences the LLM may have wrapped the Gherkin in
+        var block = StripMarkdownFences(gherkin).Trim();
         File.WriteAllText(path, existing + "\n\n" + block + "\n");
 
         var lines = block.Split('\n').Length;
