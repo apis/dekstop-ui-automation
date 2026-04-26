@@ -55,6 +55,43 @@ public sealed class ScenarioPipeline(ILogger<ScenarioPipeline> logger)
 
             var scenariosBefore = CountScenarios(opts.FeatureFile);
 
+            // ── Pre-check: fix any lingering build failures before analyzing ──
+            if (!string.IsNullOrWhiteSpace(opts.BddProject))
+            {
+                var preBuild = BuildTools.BuildProject(opts.BddProject);
+                if (preBuild.Contains("FAILURE"))
+                {
+                    logger.LogWarning("Pre-iteration build check failed — running Fixer before analyzing");
+                    var preErrors = string.Join("\n", preBuild.Split('\n')
+                        .Where(l => l.Contains(": error CS") || l.Contains("Build FAILED"))
+                        .Take(10));
+                    logger.LogWarning("Pre-build errors:\n{E}", preErrors);
+
+                    var preFixerAgent = chatClient.AsAIAgent(
+                        instructions: SystemPrompts.Fixer,
+                        tools:
+                        [
+                            AIFunctionFactory.Create(FileSystemTools.ReadFile),
+                            AIFunctionFactory.Create(FileSystemTools.WriteFile),
+                            AIFunctionFactory.Create(BuildTools.BuildProject),
+                        ]);
+
+                    var preFixResult = GetText(await preFixerAgent.RunAsync(
+                        $"""
+                        The BDD project has pre-existing build errors. Fix them before any new scenarios are added.
+
+                        Build errors:
+                        {Truncate(preBuild, 3000)}
+
+                        BDD project path: {opts.BddProject}
+                        Steps file path : {opts.StepsFile}
+                        """,
+                        cancellationToken: ct));
+
+                    logger.LogInformation("Pre-iteration fixer: {R}", Truncate(preFixResult, 200));
+                }
+            }
+
             // ── Stage 1: Analyze ──────────────────────────────────────────────
             logger.LogInformation("Stage 1 – Analyzing coverage");
 
@@ -297,11 +334,10 @@ public sealed class ScenarioPipeline(ILogger<ScenarioPipeline> logger)
     {
         try
         {
-            var cleaned = StripMarkdownFences(json);
-            var start = cleaned.IndexOf('{');
-            if (start < 0) return null;
+            var jsonText = ExtractJsonObject(json);
+            if (jsonText.Length == 0) return null;
 
-            using var doc = JsonDocument.Parse(cleaned[start..]);
+            using var doc = JsonDocument.Parse(jsonText);
             var root = doc.RootElement;
 
             return new ReviewResult(
@@ -321,13 +357,12 @@ public sealed class ScenarioPipeline(ILogger<ScenarioPipeline> logger)
 
     private static (string Gherkin, string Reason) ExtractProposedGherkin(string analysis, int iteration)
     {
-        var cleaned = StripMarkdownFences(analysis);
-        var start = cleaned.IndexOf('{');
-        if (start < 0)
+        var jsonText = ExtractJsonObject(analysis);
+        if (jsonText.Length == 0)
             return (string.Empty, "no JSON object found in analysis output");
 
         JsonDocument doc;
-        try { doc = JsonDocument.Parse(cleaned[start..]); }
+        try { doc = JsonDocument.Parse(jsonText); }
         catch (JsonException ex)
             { return (string.Empty, $"JSON parse error: {ex.Message}"); }
 
@@ -390,6 +425,32 @@ public sealed class ScenarioPipeline(ILogger<ScenarioPipeline> logger)
             Iterations:
             {string.Join("\n", iterations.Select(r => "  " + r))}
             """;
+    }
+
+    // Extracts the first complete, balanced JSON object from arbitrary text.
+    // Handles trailing content after the closing `}` that would break JsonDocument.Parse.
+    private static string ExtractJsonObject(string text)
+    {
+        var s = StripMarkdownFences(text);
+        var start = s.IndexOf('{');
+        if (start < 0) return string.Empty;
+
+        var depth    = 0;
+        var inString = false;
+        var escape   = false;
+
+        for (var i = start; i < s.Length; i++)
+        {
+            var c = s[i];
+            if (escape)   { escape = false; continue; }
+            if (c == '\\' && inString) { escape = true; continue; }
+            if (c == '"') { inString = !inString; continue; }
+            if (inString) continue;
+
+            if      (c == '{') depth++;
+            else if (c == '}') { depth--; if (depth == 0) return s[start..(i + 1)]; }
+        }
+        return string.Empty;
     }
 
     private static string StripMarkdownFences(string text)
