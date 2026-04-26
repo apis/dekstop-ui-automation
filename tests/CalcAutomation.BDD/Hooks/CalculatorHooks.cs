@@ -22,6 +22,7 @@ public sealed class CalculatorHooks
         try { CalcMutex.WaitOne(); } catch (AbandonedMutexException) { /* previous run crashed — OK */ }
         _ctx.Fla = new FlaUiEngine();
         _ctx.Handle = _ctx.Fla.Launch("calc.exe");
+        _ctx.EnsureStandardMode();
     }
 
     [AfterScenario]

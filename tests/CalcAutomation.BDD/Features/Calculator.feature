@@ -6,7 +6,7 @@ Feature: Windows Calculator – Basic Arithmetic
   Background:
     Given the Calculator application is open
 
-  # ── Named scenarios (one per operation) ─────────────────────────────────────
+  # Section 1 – Named scenarios
 
   Scenario: Add two numbers
     When I add 7 and 5
@@ -24,7 +24,7 @@ Feature: Windows Calculator – Basic Arithmetic
     When I divide 20 by 4
     Then the display should show 5
 
-  # ── Parameterised outline: QA can add new rows without touching C# code ─────
+  # Section 2 – Parameterised outline
 
   Scenario Outline: Parameterised arithmetic – <left> <operator> <right> equals <expected>
     When I calculate <left> <operator> <right>
@@ -39,7 +39,7 @@ Feature: Windows Calculator – Basic Arithmetic
       | 100  | /        | 4     | 25       |
       | 9    | *        | 9     | 81       |
 
-  # ── Edge cases ───────────────────────────────────────────────────────────────
+  # Section 3 – Edge cases
 
   Scenario: Division by zero shows an error
     When I divide 5 by 0
@@ -61,6 +61,8 @@ Feature: Windows Calculator – Basic Arithmetic
     When I divide 2 by 3
     Then the display should contain "0.6666666666"
 
+  # Section 4 – Boundary outline
+
   Scenario Outline: Edge case arithmetic – <left> <operator> <right> equals <expected>
     When I calculate <left> <operator> <right>
     Then the display should show <expected>
@@ -73,3 +75,63 @@ Feature: Windows Calculator – Basic Arithmetic
       | 7         | -        | 7     | 0          |
       | 0         | +        | 0     | 0          |
       | 1000000   | /        | 4     | 250000     |
+
+  # Section 5 – Identity and zero properties
+
+  Scenario: Dividing a number by itself gives one
+    When I divide 123 by 123
+    Then the display should show 1
+
+  Scenario: Dividing a large number by itself gives one
+    When I divide 999 by 999
+    Then the display should show 1
+
+  Scenario: Subtracting a number from itself gives zero
+    When I subtract 45 from 45
+    Then the display should show 0
+
+  Scenario: Adding zero does not change the value
+    When I add 7 and 0
+    Then the display should show 7
+
+  Scenario Outline: Multiplying by zero always gives zero – <left> * 0
+    When I calculate <left> * 0
+    Then the display should show 0
+
+    Examples: Multiply by zero cases
+      | left   |
+      | 1      |
+      | 42     |
+      | 10000  |
+
+  # Section 6 – Commutativity
+
+  Scenario Outline: Addition is commutative – <a> + <b> == <b> + <a>
+    When I calculate <a> + <b>
+    Then the display should show <result>
+    When I calculate <b> + <a>
+    Then the display should show <result>
+
+    Examples: Commutative pairs
+      | a  | b  | result |
+      | 5  | 10 | 15     |
+      | 3  | 7  | 10     |
+      | 12 | 8  | 20     |
+
+  # Section 7 – Division edge cases
+
+  Scenario: Zero divided by any positive number is zero
+    When I divide 0 by 5
+    Then the display should show 0
+
+  Scenario: Zero divided by a large positive number is zero
+    When I divide 0 by 999
+    Then the display should show 0
+
+  Scenario: Division with remainder as decimal
+    When I divide 10 by 4
+    Then the display should show "2.5"
+
+  Scenario: Division producing an integer result
+    When I divide 144 by 12
+    Then the display should show 12

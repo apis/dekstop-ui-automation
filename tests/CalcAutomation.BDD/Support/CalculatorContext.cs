@@ -27,10 +27,20 @@ public class CalculatorContext
     /// <summary>
     /// Takes an accessibility-tree snapshot and returns a map of canonical key → ref ID
     /// (e.g. "7" → "w1e12", "+" → "w1e20", "display" → "w1e5").
+    /// Retries up to 3 times with back-off because the UWP Calculator window can
+    /// briefly vanish from the accessibility tree during result animations.
     /// </summary>
     public Dictionary<string, string> SnapshotAndIndex()
     {
-        var tree = Fla.Snapshot(Handle);
+        string tree = string.Empty;
+        for (var attempt = 0; attempt < 3; attempt++)
+        {
+            try { tree = Fla.Snapshot(Handle); break; }
+            catch (InvalidOperationException) when (attempt < 2)
+            { Thread.Sleep(300 * (attempt + 1)); }
+        }
+        if (string.IsNullOrEmpty(tree)) tree = Fla.Snapshot(Handle); // final — let it throw
+
         var refs = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
         foreach (var line in tree.Split('\n', StringSplitOptions.RemoveEmptyEntries))
@@ -82,6 +92,37 @@ public class CalculatorContext
         "/" or "÷" => "÷",
         _ => throw new ArgumentException($"Unknown operator '{op}'. Use +, -, *, /")
     };
+
+    /// <summary>
+    /// Switches the Calculator to Standard mode if it is currently in any other mode.
+    /// Called during test setup because Windows Calculator persists its last-used mode.
+    /// </summary>
+    public void EnsureStandardMode()
+    {
+        var tree = Fla.Snapshot(Handle);
+        if (tree.Contains("Standard Calculator mode", StringComparison.OrdinalIgnoreCase)) return;
+
+        var refId = FindRef(tree, "Open Navigation");
+        if (refId == null) return;
+        Fla.Click(refId);
+
+        tree = Fla.Snapshot(Handle);
+        var standardRef = FindRef(tree, "Standard Calculator");
+        if (standardRef != null) Fla.Click(standardRef);
+    }
+
+    private static string? FindRef(string tree, string namePrefix)
+    {
+        foreach (var line in tree.Split('\n', StringSplitOptions.RemoveEmptyEntries))
+        {
+            var nameMatch = Regex.Match(line, "\"([^\"]+)\"");
+            if (!nameMatch.Success) continue;
+            if (!nameMatch.Groups[1].Value.StartsWith(namePrefix, StringComparison.OrdinalIgnoreCase)) continue;
+            var refMatch = Regex.Match(line, @"\[ref=(\w+)");
+            if (refMatch.Success) return refMatch.Groups[1].Value;
+        }
+        return null;
+    }
 
     /// <summary>Splits a non-negative integer into its constituent digit strings.</summary>
     public static IEnumerable<string> ToDigits(int n) =>
