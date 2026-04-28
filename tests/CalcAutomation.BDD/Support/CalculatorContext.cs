@@ -24,7 +24,11 @@ public class CalculatorContext
             ["Equals"] = "=", ["Clear entry"] = "CE", ["Clear"] = "C",
             ["Square root"] = "√", ["Square"] = "x²",
             ["Reciprocal"] = "1/x", ["Positive negative"] = "+/-",
-            ["Percent"] = "%",
+            ["Percent"] = "%", ["Backspace"] = "Backspace",
+            ["Decimal separator"] = ".",
+            ["Memory store"] = "MS", ["Memory add"] = "M+",
+            ["Memory subtract"] = "M-", ["Memory recall"] = "MR",
+            ["Clear all memory"] = "MC",
         };
 
     /// <summary>

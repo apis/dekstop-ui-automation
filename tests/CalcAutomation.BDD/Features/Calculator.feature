@@ -160,3 +160,136 @@ Feature: Windows Calculator – Basic Arithmetic
   Scenario: Negating zero gives zero
     When I negate 0
     Then the display should show 0
+
+  # Section 11 – Backspace and clear controls
+
+  Scenario: Backspace removes the last digit
+    When I enter 123
+    When I press "Backspace"
+    Then the display should show 12
+
+  Scenario: Backspace on a single digit resets to zero
+    When I enter 5
+    When I press "Backspace"
+    Then the display should show 0
+
+  Scenario: Clear Entry preserves the pending operation
+    When I enter 5
+    When I press "+"
+    When I enter 9
+    When I press "CE"
+    When I enter 3
+    When I press "="
+    Then the display should show 8
+
+  Scenario: Clear resets the entire expression
+    When I enter 5
+    When I press "+"
+    When I press "C"
+    When I enter 3
+    When I press "="
+    Then the display should show 3
+
+  # Section 12 – Percent
+
+  Scenario: Percent in a binary context shows the percentage amount
+    When I enter 200
+    When I press "+"
+    When I enter 10
+    When I press "%"
+    Then the display should show 20
+
+  Scenario: Adding a percentage of the base gives correct total
+    When I enter 200
+    When I press "+"
+    When I enter 10
+    When I press "%"
+    When I press "="
+    Then the display should show 220
+
+  # Section 13 – Decimal input
+
+  Scenario: Entering a decimal number directly
+    When I enter 3
+    When I press "."
+    When I enter 14
+    Then the display should show "3.14"
+
+  Scenario: Arithmetic with a directly entered decimal number
+    When I enter 3
+    When I press "."
+    When I enter 14
+    When I press "+"
+    When I enter 1
+    When I press "="
+    Then the display should show "4.14"
+
+  # Section 14 – Chained operations
+
+  Scenario: Chaining subtraction after addition
+    When I add 5 and 3
+    Then the display should show 8
+    When I press "-"
+    When I enter 2
+    When I press "="
+    Then the display should show 6
+
+  Scenario: Chaining addition after multiplication
+    When I multiply 2 by 3
+    Then the display should show 6
+    When I press "+"
+    When I enter 4
+    When I press "="
+    Then the display should show 10
+
+  # Section 15 – Memory (MS / M+ / M- / MR / MC)
+
+  Scenario: Memory store and recall
+    When I add 5 and 3
+    When I press "MS"
+    When I press "C"
+    When I press "MR"
+    Then the display should show 8
+
+  Scenario: Memory add accumulates values
+    When I enter 5
+    When I press "MS"
+    When I enter 3
+    When I press "M+"
+    When I press "MR"
+    Then the display should show 8
+
+  Scenario: Memory subtract reduces the stored value
+    When I enter 10
+    When I press "MS"
+    When I enter 3
+    When I press "M-"
+    When I press "MR"
+    Then the display should show 7
+
+  Scenario: Memory store overwrites the previous value
+    When I enter 5
+    When I press "MS"
+    When I enter 10
+    When I press "MS"
+    When I press "MR"
+    Then the display should show 10
+
+  Scenario: Memory clear then store a new value
+    When I enter 5
+    When I press "MS"
+    When I press "MC"
+    When I enter 3
+    When I press "MS"
+    When I press "MR"
+    Then the display should show 3
+
+  Scenario: Memory add multiple times accumulates correctly
+    When I enter 5
+    When I press "MS"
+    When I enter 5
+    When I press "M+"
+    When I enter 5
+    When I press "M+"
+    When I press "MR"
+    Then the display should show 15

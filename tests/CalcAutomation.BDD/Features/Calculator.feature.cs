@@ -173,7 +173,48 @@ namespace CalcAutomation.BDD.Features
                     "\n    Then the display should contain \"Cannot divide by zero\"\n\n  # Section 10 – N" +
                     "egate (+/-)\n\n  Scenario: Negating a positive number gives a negative result\n    " +
                     "When I negate 7\n    Then the display should show -7\n\n  Scenario: Negating zero g" +
-                    "ives zero\n    When I negate 0\n    Then the display should show 0\n", global::Io.Cucumber.Messages.Types.SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN);
+                    "ives zero\n    When I negate 0\n    Then the display should show 0\n\n  # Section 11" +
+                    " – Backspace and clear controls\n\n  Scenario: Backspace removes the last digit\n  " +
+                    "  When I enter 123\n    When I press \"Backspace\"\n    Then the display should show" +
+                    " 12\n\n  Scenario: Backspace on a single digit resets to zero\n    When I enter 5\n " +
+                    "   When I press \"Backspace\"\n    Then the display should show 0\n\n  Scenario: Clea" +
+                    "r Entry preserves the pending operation\n    When I enter 5\n    When I press \"+\"\n" +
+                    "    When I enter 9\n    When I press \"CE\"\n    When I enter 3\n    When I press \"=\"" +
+                    "\n    Then the display should show 8\n\n  Scenario: Clear resets the entire express" +
+                    "ion\n    When I enter 5\n    When I press \"+\"\n    When I press \"C\"\n    When I ente" +
+                    "r 3\n    When I press \"=\"\n    Then the display should show 3\n\n  # Section 12 – Pe" +
+                    "rcent\n\n  Scenario: Percent in a binary context shows the percentage amount\n    W" +
+                    "hen I enter 200\n    When I press \"+\"\n    When I enter 10\n    When I press \"%\"\n  " +
+                    "  Then the display should show 20\n\n  Scenario: Adding a percentage of the base g" +
+                    "ives correct total\n    When I enter 200\n    When I press \"+\"\n    When I enter 10" +
+                    "\n    When I press \"%\"\n    When I press \"=\"\n    Then the display should show 220\n" +
+                    "\n  # Section 13 – Decimal input\n\n  Scenario: Entering a decimal number directly\n" +
+                    "    When I enter 3\n    When I press \".\"\n    When I enter 14\n    Then the display" +
+                    " should show \"3.14\"\n\n  Scenario: Arithmetic with a directly entered decimal numb" +
+                    "er\n    When I enter 3\n    When I press \".\"\n    When I enter 14\n    When I press " +
+                    "\"+\"\n    When I enter 1\n    When I press \"=\"\n    Then the display should show \"4." +
+                    "14\"\n\n  # Section 14 – Chained operations\n\n  Scenario: Chaining subtraction after" +
+                    " addition\n    When I add 5 and 3\n    Then the display should show 8\n    When I p" +
+                    "ress \"-\"\n    When I enter 2\n    When I press \"=\"\n    Then the display should sho" +
+                    "w 6\n\n  Scenario: Chaining addition after multiplication\n    When I multiply 2 by" +
+                    " 3\n    Then the display should show 6\n    When I press \"+\"\n    When I enter 4\n  " +
+                    "  When I press \"=\"\n    Then the display should show 10\n\n  # Section 15 – Memory " +
+                    "(MS / M+ / M- / MR / MC)\n\n  Scenario: Memory store and recall\n    When I add 5 a" +
+                    "nd 3\n    When I press \"MS\"\n    When I press \"C\"\n    When I press \"MR\"\n    Then t" +
+                    "he display should show 8\n\n  Scenario: Memory add accumulates values\n    When I e" +
+                    "nter 5\n    When I press \"MS\"\n    When I enter 3\n    When I press \"M+\"\n    When I" +
+                    " press \"MR\"\n    Then the display should show 8\n\n  Scenario: Memory subtract redu" +
+                    "ces the stored value\n    When I enter 10\n    When I press \"MS\"\n    When I enter " +
+                    "3\n    When I press \"M-\"\n    When I press \"MR\"\n    Then the display should show 7" +
+                    "\n\n  Scenario: Memory store overwrites the previous value\n    When I enter 5\n    " +
+                    "When I press \"MS\"\n    When I enter 10\n    When I press \"MS\"\n    When I press \"MR" +
+                    "\"\n    Then the display should show 10\n\n  Scenario: Memory clear then store a new" +
+                    " value\n    When I enter 5\n    When I press \"MS\"\n    When I press \"MC\"\n    When I" +
+                    " enter 3\n    When I press \"MS\"\n    When I press \"MR\"\n    Then the display should" +
+                    " show 3\n\n  Scenario: Memory add multiple times accumulates correctly\n    When I " +
+                    "enter 5\n    When I press \"MS\"\n    When I enter 5\n    When I press \"M+\"\n    When " +
+                    "I enter 5\n    When I press \"M+\"\n    When I press \"MR\"\n    Then the display shoul" +
+                    "d show 15\n", global::Io.Cucumber.Messages.Types.SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN);
         }
         
         private static global::Io.Cucumber.Messages.Types.GherkinDocument GherkinDocumentFunc()
@@ -182,139 +223,246 @@ namespace CalcAutomation.BDD.Features
                         "glish test scenarios\r\n  So that tests are readable and maintainable without deep" +
                         " coding knowledge", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.FeatureChild>(new global::Io.Cucumber.Messages.Types.FeatureChild[] {
                                 new global::Io.Cucumber.Messages.Types.FeatureChild(null, new global::Io.Cucumber.Messages.Types.Background(new global::Io.Cucumber.Messages.Types.Location(6, new System.Nullable<long>(3)), "Background", "", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(7, new System.Nullable<long>(5)), "Given ", global::Io.Cucumber.Messages.Types.StepKeywordType.CONTEXT, "the Calculator application is open", null, null, "aa2ace005aabdf5082fbc0317bf2a822")}), "424433dfcf03d2598c279abeacb080ab"), null),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(7, new System.Nullable<long>(5)), "Given ", global::Io.Cucumber.Messages.Types.StepKeywordType.CONTEXT, "the Calculator application is open", null, null, "a2a776ce5aaa5258be4bb252f846e5d9")}), "8f8759e48f8abb549577933d47fc73d8"), null),
                                 new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(11, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Add two numbers", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(12, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I add 7 and 5", null, null, "b31375c76022ac59b70abb16d1305a8e"),
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(13, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 12", null, null, "56d6a37a83ca7f51bef11ba42edafc4e")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "7271d044cdbc15519ac5b74184773598")),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(12, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I add 7 and 5", null, null, "6e69f6243691ed549f3268bc0861496b"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(13, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 12", null, null, "eaef057975fbfe50b73103320d5f74a3")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "6436f0671a60e45b876ff1513d1e6245")),
                                 new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(15, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Subtract two numbers", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(16, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I subtract 4 from 10", null, null, "d5ea8fc6df38cc50b1068f9c243aab25"),
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(17, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 6", null, null, "5b3518c093e90b57bfcb045aa4541072")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "4bc668462d4d3859af7f2e2b04733951")),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(16, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I subtract 4 from 10", null, null, "e9ff5a3b6b65e85e919de35fc563c926"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(17, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 6", null, null, "57d9df11435c9659aa48612903b57d8f")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "823d0ceac41e1753bb90a1c5af9c4910")),
                                 new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(19, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Multiply two numbers", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(20, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I multiply 3 by 3", null, null, "9dd67062fe22b550a235d41cc06465cb"),
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(21, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 9", null, null, "0b7b92701060365cab07c05724c00737")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "47ea9fdb5a8c6752b2203735391570c6")),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(20, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I multiply 3 by 3", null, null, "33cf6749d3b8905c80920d5b18295c35"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(21, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 9", null, null, "dcf6ffafd9086b5f9d68451fe91c8e83")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "1c693e45345c6e5f8493556bcf74a26a")),
                                 new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(23, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Divide two numbers", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(24, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I divide 20 by 4", null, null, "fd3b02d2336e8058b11cad9c230718d5"),
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(25, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 5", null, null, "f4d23c936051d052bd157f61ff010df3")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "0a58e836fa1f6655aae069444600986f")),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(24, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I divide 20 by 4", null, null, "3ddc94714653bd5390d69685967d9f0f"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(25, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 5", null, null, "6a1fcf450cf64b54a0d3f067b93a360c")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "9842617214456455bff6c22c5af3443f")),
                                 new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(29, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Division by zero shows an error", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(30, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I divide 5 by 0", null, null, "29feab2832d36c5bad6b6decaa05fa2f"),
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(31, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should contain \"Cannot divide by zero\"", null, null, "ae2928498a9c0d5d93fbe8bc6f319d57")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "bb3bb15bdb80ae5e8a5bc71bd967210f")),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(30, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I divide 5 by 0", null, null, "a373cfb388b0895b8b42f305a36aca5b"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(31, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should contain \"Cannot divide by zero\"", null, null, "e1a8ab8b95b3015cae6e66a0406c38d5")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "576d3c6b0582ab5a9a336c0e98295c89")),
                                 new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(33, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Subtracting a larger number gives a negative result", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(34, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I subtract 10 from 3", null, null, "c2ab23d4f2d6fc529ca8b6f5cac59293"),
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(35, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show -7", null, null, "6157a543455f8e5fbccbb56dfacba97c")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "3052d633b5e6985e99a9a4b393647b84")),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(34, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I subtract 10 from 3", null, null, "d60715ed295b9b58a8454d2f960301b8"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(35, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show -7", null, null, "b8081f6a15153058a2b912079c78dd7f")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "b0490027757c815ba7673409e7a67f28")),
                                 new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(37, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Multiplying any number by zero gives zero", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(38, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I multiply 99999 by 0", null, null, "d23c2eeed8a4d6549ecd3a5a54f0941c"),
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(39, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 0", null, null, "06cde9405918ec5ab80a7376ae4d9fd0")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "1f5a2900f55f1b50979814a2dad183ba")),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(38, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I multiply 99999 by 0", null, null, "6b40c16abefdcd58801fb3a66c5634fe"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(39, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 0", null, null, "ecb528673b1bed5c8c193594e2457907")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "c71c8de83be1e252815eee284754f7be")),
                                 new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(41, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Division producing a decimal result", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(42, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I divide 1 by 4", null, null, "6cc21d5acf22e3579449dd393085bbc8"),
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(43, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show \"0.25\"", null, null, "3ffe105c2217e05d8add1d036860f939")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "9b59f54709e4f7569a81c59b6db4f06d")),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(42, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I divide 1 by 4", null, null, "a15abff3cb93c4598fadf9983b5598b7"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(43, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show \"0.25\"", null, null, "584c5b698339bd508f99362e229998c0")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "f71668f20cba87568941cf3ac0628975")),
                                 new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(45, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Division producing a repeating decimal", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(46, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I divide 2 by 3", null, null, "c191db62d7a89f5a8111aec2fcba6d61"),
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(47, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should contain \"0.6666666666\"", null, null, "19054618d73ef659a98f56cfdff8f524")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "b9a5c4b431549653a4eab05bb2a57c1d")),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(46, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I divide 2 by 3", null, null, "ca249d9f91775f5f96e58c57a93ff207"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(47, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should contain \"0.6666666666\"", null, null, "0fecc4a4fb1a185ca34e7baff68230c6")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "603f1419ba6a7350807e676a742a35d5")),
                                 new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(51, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario Outline", "Boundary arithmetic – <left> <operator> <right> equals <expected>", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(52, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I calculate <left> <operator> <right>", null, null, "a9b0b8d489174850b1996fb23cc6f8e7"),
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(53, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show <expected>", null, null, "e345fbb026db045082b9f7afe68050fd")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[] {
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(52, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I calculate <left> <operator> <right>", null, null, "b2c7d6aa66877157a29c2e6c06200363"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(53, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show <expected>", null, null, "e60dbaf7fb560252b2af988a50f585f6")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[] {
                                                     new global::Io.Cucumber.Messages.Types.Examples(new global::Io.Cucumber.Messages.Types.Location(55, new System.Nullable<long>(5)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Examples", "Boundary and sign-change values", "", new global::Io.Cucumber.Messages.Types.TableRow(new global::Io.Cucumber.Messages.Types.Location(56, new System.Nullable<long>(7)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.TableCell>(new global::Io.Cucumber.Messages.Types.TableCell[] {
                                                                         new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(56, new System.Nullable<long>(9)), "left"),
                                                                         new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(56, new System.Nullable<long>(21)), "operator"),
                                                                         new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(56, new System.Nullable<long>(32)), "right"),
-                                                                        new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(56, new System.Nullable<long>(40)), "expected")}), "d3e9d8063798dc5b8b50335183ba5813"), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.TableRow>(new global::Io.Cucumber.Messages.Types.TableRow[] {
+                                                                        new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(56, new System.Nullable<long>(40)), "expected")}), "2b87a4028552ba5499def3dc68935099"), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.TableRow>(new global::Io.Cucumber.Messages.Types.TableRow[] {
                                                                     new global::Io.Cucumber.Messages.Types.TableRow(new global::Io.Cucumber.Messages.Types.Location(57, new System.Nullable<long>(7)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.TableCell>(new global::Io.Cucumber.Messages.Types.TableCell[] {
                                                                                     new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(57, new System.Nullable<long>(9)), "999999999"),
                                                                                     new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(57, new System.Nullable<long>(21)), "+"),
                                                                                     new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(57, new System.Nullable<long>(32)), "1"),
-                                                                                    new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(57, new System.Nullable<long>(40)), "1000000000")}), "cef5f73fd3be6d598ba9e07e092a1f0b"),
+                                                                                    new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(57, new System.Nullable<long>(40)), "1000000000")}), "8bc0fbceb8f65f54846afc6e0aec254f"),
                                                                     new global::Io.Cucumber.Messages.Types.TableRow(new global::Io.Cucumber.Messages.Types.Location(58, new System.Nullable<long>(7)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.TableCell>(new global::Io.Cucumber.Messages.Types.TableCell[] {
                                                                                     new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(58, new System.Nullable<long>(9)), "2000000"),
                                                                                     new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(58, new System.Nullable<long>(21)), "*"),
                                                                                     new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(58, new System.Nullable<long>(32)), "3"),
-                                                                                    new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(58, new System.Nullable<long>(40)), "6000000")}), "4423883ec0e4b750ad955e84773963d6"),
+                                                                                    new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(58, new System.Nullable<long>(40)), "6000000")}), "2604e344a520925fa57a02d1bfb2fbbd"),
                                                                     new global::Io.Cucumber.Messages.Types.TableRow(new global::Io.Cucumber.Messages.Types.Location(59, new System.Nullable<long>(7)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.TableCell>(new global::Io.Cucumber.Messages.Types.TableCell[] {
                                                                                     new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(59, new System.Nullable<long>(9)), "0"),
                                                                                     new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(59, new System.Nullable<long>(21)), "+"),
                                                                                     new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(59, new System.Nullable<long>(32)), "0"),
-                                                                                    new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(59, new System.Nullable<long>(40)), "0")}), "eb2ba9a628f38b5ca42fc4aba3dff41b"),
+                                                                                    new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(59, new System.Nullable<long>(40)), "0")}), "2ca1236718690a55b2e6d89f6b33efd4"),
                                                                     new global::Io.Cucumber.Messages.Types.TableRow(new global::Io.Cucumber.Messages.Types.Location(60, new System.Nullable<long>(7)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.TableCell>(new global::Io.Cucumber.Messages.Types.TableCell[] {
                                                                                     new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(60, new System.Nullable<long>(9)), "1000000"),
                                                                                     new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(60, new System.Nullable<long>(21)), "/"),
                                                                                     new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(60, new System.Nullable<long>(32)), "4"),
-                                                                                    new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(60, new System.Nullable<long>(40)), "250000")}), "d0a1ffbdf3ebbf54bcfd729efa33f2f9")}), "69736f9d64cfb457936fe6ef0d75a74a")}), "133d8ad9d02e5751a0fc4a8c7dad2d55")),
+                                                                                    new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(60, new System.Nullable<long>(40)), "250000")}), "6b94f05ee19f915693fa94bc83cbe295")}), "87d6d26007a1ff5ca1db82ddbcdff23c")}), "d1e01c741c85205581067df48fd1edc8")),
                                 new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(64, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Dividing a number by itself gives one", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(65, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I divide 123 by 123", null, null, "e5fbaabe87f62150ba52db86d88ec5d4"),
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(66, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 1", null, null, "25d535689198275aaac9e0c4abd2156b")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "3551be6be8901c59acaa7265132c67b7")),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(65, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I divide 123 by 123", null, null, "56ce1d1d48dbeb5eb570977f9f735a89"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(66, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 1", null, null, "f90190a45d4ce857ad638398dc787e91")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "e35c15078da9fd5f90b78363ae1ded9d")),
                                 new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(68, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Subtracting a number from itself gives zero", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(69, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I subtract 45 from 45", null, null, "2172e570de2d2f53bad822d3cd6a48b9"),
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(70, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 0", null, null, "0e5bbc6ae781d05fabdc82bfd3ef5c8c")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "6da449d04ade2956bd1a36d8cb80f2a9")),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(69, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I subtract 45 from 45", null, null, "9e5d7e8697e23a509869dcbd0780399f"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(70, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 0", null, null, "d9712e47b9a571529b903f74192df782")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "2b675cc774dccf578455ef7e93f588bd")),
                                 new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(72, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Adding zero does not change the value", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(73, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I add 7 and 0", null, null, "189a53a42cc3505bb20b23f527473ee7"),
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(74, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 7", null, null, "33895dca63069f559283cf590ba17f70")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "bce6630dcb61295d8f4a4151e1ab967f")),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(73, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I add 7 and 0", null, null, "f2436374182f90558d61ab0be79ab998"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(74, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 7", null, null, "aff175b70b9e765c9a97fb01d7d7a526")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "f548b2db71edc058833bf93778c622c7")),
                                 new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(78, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Addition is commutative", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(79, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I calculate 5 + 10", null, null, "4b63749a176f575c925b6c1e78a800d7"),
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(80, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 15", null, null, "083f195374acdb5a8c36091bf31b3655"),
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(81, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I calculate 10 + 5", null, null, "c08a621a7f94915b85c17fec5231f8e0"),
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(82, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 15", null, null, "fcec5c15a352f15ba931dbce94461ea1")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "8eb56a2a113392539a66e54ba6731632")),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(79, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I calculate 5 + 10", null, null, "364d74da7e8d465abdba7b60099deb94"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(80, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 15", null, null, "60031a9b4cf4e456af7f409c6fe18e15"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(81, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I calculate 10 + 5", null, null, "d50513af9b293e5cb8174b831908cd5d"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(82, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 15", null, null, "2208978351d95b56b5d71496c0cd6768")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "c527117d6dbd9d5cad857a9fd106376d")),
                                 new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(86, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Zero divided by a positive number is zero", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(87, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I divide 0 by 5", null, null, "38ec91e53b730359859514a124fc6cd0"),
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(88, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 0", null, null, "c2f806913ec2a55287da96e46105851f")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "f0d92ce2e642ff51a4276fd74088d981")),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(87, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I divide 0 by 5", null, null, "c3a3a5994248b054bba085d4b63c6a2a"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(88, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 0", null, null, "fa48eeea4c5ceb50a40c381fe7bd20c2")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "bba73322bcd8985dbf98ff23bb3acf28")),
                                 new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(90, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Division with remainder as decimal", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(91, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I divide 10 by 4", null, null, "0814b128f951155c90810ed4014f96fb"),
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(92, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show \"2.5\"", null, null, "b3328e995518b359ac18d97718b6cb39")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "9f85e4cea747a55aa8039ffef804a0d3")),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(91, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I divide 10 by 4", null, null, "1856eedb6aca4b56bdfb6dc67ecc2e87"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(92, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show \"2.5\"", null, null, "f80ba2ff6127995d99b2619d1c461866")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "d87adf1681803354959c57d558606c88")),
                                 new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(96, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Square root of a perfect square", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(97, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I take the square root of 25", null, null, "b613c9d3d1b87d55bac31b25533057ab"),
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(98, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 5", null, null, "1fed411f1b237057afd332f4261de51b")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "3a3603e303def95a984c7fb4e6c38ce2")),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(97, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I take the square root of 25", null, null, "91ba95618c81035ab250b76cda36bc5b"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(98, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 5", null, null, "01ae20ec9292e156bd504b82aeda396f")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "fff9c6003ed73557bde5f0c1f965d278")),
                                 new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(100, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Square root of 1 is 1", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(101, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I take the square root of 1", null, null, "cd6727ff274e2c55aed1590142ae9d6e"),
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(102, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 1", null, null, "6adf80327034a95b98daa39dff3ba0a0")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "14a940e8f74ed656ab25c08a466dfa4d")),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(101, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I take the square root of 1", null, null, "4d8b3aff495baa5f9af72058df775f48"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(102, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 1", null, null, "771ecc19c4a9f6548e440b3f49370d78")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "61555e1951bdea59a64b97aa0ee306f8")),
                                 new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(104, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Square root of 0 is 0", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(105, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I take the square root of 0", null, null, "1411aad69d217a5ba056ce48249c2fef"),
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(106, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 0", null, null, "7d1f61971c3c8658946efeb4eacb92b1")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "bf1032e7a5c3f352b9a4633786828996")),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(105, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I take the square root of 0", null, null, "dd4cd677a378ac5b8fc95cad68128231"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(106, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 0", null, null, "edbd6350ced89b5c9bf85655082542f5")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "91b02d626f17255883294147ded97f6c")),
                                 new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(108, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Square root of 2 is irrational", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(109, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I take the square root of 2", null, null, "e760b63e3e25d25b8b0ab4b8c695702a"),
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(110, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should contain \"1.41421356\"", null, null, "78eed5c6dd0c7c529c30c35b83ae4089")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "bf4e5a9d41bbe9599799941b1b5f3d96")),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(109, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I take the square root of 2", null, null, "d7749410e37b68519b1f5632bb1264df"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(110, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should contain \"1.41421356\"", null, null, "9d7abb045409585aa9421960185657f2")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "8b34ee09592f9752937a0de9293e4643")),
                                 new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(112, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario Outline", "Square root of perfect squares – √<number> equals <expected>", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(113, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I take the square root of <number>", null, null, "1a2b9f4a1d4b1a5a98a9caeecaedab94"),
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(114, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show <expected>", null, null, "167629cf3fb91c539e9e2d50bef5b7ed")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[] {
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(113, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I take the square root of <number>", null, null, "da84de6846fd4c518e50df61edbe7115"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(114, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show <expected>", null, null, "8a91a7cabd49b85ca984cc73377710f1")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[] {
                                                     new global::Io.Cucumber.Messages.Types.Examples(new global::Io.Cucumber.Messages.Types.Location(116, new System.Nullable<long>(5)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Examples", "Small and large perfect squares", "", new global::Io.Cucumber.Messages.Types.TableRow(new global::Io.Cucumber.Messages.Types.Location(117, new System.Nullable<long>(7)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.TableCell>(new global::Io.Cucumber.Messages.Types.TableCell[] {
                                                                         new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(117, new System.Nullable<long>(9)), "number"),
-                                                                        new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(117, new System.Nullable<long>(18)), "expected")}), "3e2ae27c9aae555c96b011cd6ca03469"), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.TableRow>(new global::Io.Cucumber.Messages.Types.TableRow[] {
+                                                                        new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(117, new System.Nullable<long>(18)), "expected")}), "b1aa069b6bb2de58a47e7f0a0c84bbe7"), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.TableRow>(new global::Io.Cucumber.Messages.Types.TableRow[] {
                                                                     new global::Io.Cucumber.Messages.Types.TableRow(new global::Io.Cucumber.Messages.Types.Location(118, new System.Nullable<long>(7)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.TableCell>(new global::Io.Cucumber.Messages.Types.TableCell[] {
                                                                                     new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(118, new System.Nullable<long>(9)), "4"),
-                                                                                    new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(118, new System.Nullable<long>(18)), "2")}), "0f3421aaeaaade5f8c0b8bff3b798a80"),
+                                                                                    new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(118, new System.Nullable<long>(18)), "2")}), "ff39fb54fa286451b286c92eb84e0f4e"),
                                                                     new global::Io.Cucumber.Messages.Types.TableRow(new global::Io.Cucumber.Messages.Types.Location(119, new System.Nullable<long>(7)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.TableCell>(new global::Io.Cucumber.Messages.Types.TableCell[] {
                                                                                     new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(119, new System.Nullable<long>(9)), "144"),
-                                                                                    new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(119, new System.Nullable<long>(18)), "12")}), "0e65f6d2a25d2a539cd59768ed658de7")}), "b7a6cc21cf4faf5a8d9c21bc1f4af1d4")}), "6eaeb0f7611c9a54934bb0452b2168d2")),
+                                                                                    new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(119, new System.Nullable<long>(18)), "12")}), "56bf3ca3a78a205a89ef2ed417146b12")}), "3a9ff99c352b6f55b0b391a251be26a9")}), "a2655d5cd8b5fc52bcca6f2b0804a5f9")),
                                 new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(123, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Squaring zero gives zero", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(124, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I square 0", null, null, "6b76aa92ab5e0b59b49c3a1bc22c3785"),
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(125, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 0", null, null, "d4dc6cd49415b7508588f8de43c5b05a")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "85f44baf74696258aa8f09abb59a339b")),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(124, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I square 0", null, null, "6b08f4c3dce5e25cb0d2678c36eae18a"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(125, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 0", null, null, "7a8f56bb7144ec5aa7b413c5f9e24589")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "0a0cc21dcc99235ab3018005d484fc9b")),
                                 new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(127, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Squaring one gives one", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(128, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I square 1", null, null, "ea2ce0e2e92c6b5c8f5e9ed9fde325bb"),
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(129, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 1", null, null, "0e89543c8952365bb68580f377456b8a")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "f1ef7bc9f5f72d558ac30441b0962246")),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(128, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I square 1", null, null, "52ec37472f8da753b6a452289118ea38"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(129, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 1", null, null, "c7750ec3af18635da108772f8da6bc64")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "0f738b1e1c3db251a39e2e4edc9cade1")),
                                 new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(131, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario Outline", "Squaring numbers – <number>² equals <expected>", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(132, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I square <number>", null, null, "8e012d0e8f1e4e588ec6d94eb491316b"),
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(133, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show <expected>", null, null, "3e54dc22c940fc59903337af23761089")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[] {
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(132, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I square <number>", null, null, "5210c09132efd55c95d7dfe97283ac52"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(133, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show <expected>", null, null, "b271e756dd80f857a01b2bb2e6a7e08b")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[] {
                                                     new global::Io.Cucumber.Messages.Types.Examples(new global::Io.Cucumber.Messages.Types.Location(135, new System.Nullable<long>(5)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Examples", "Squares", "", new global::Io.Cucumber.Messages.Types.TableRow(new global::Io.Cucumber.Messages.Types.Location(136, new System.Nullable<long>(7)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.TableCell>(new global::Io.Cucumber.Messages.Types.TableCell[] {
                                                                         new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(136, new System.Nullable<long>(9)), "number"),
-                                                                        new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(136, new System.Nullable<long>(18)), "expected")}), "54df0ccf0f278552a74a8db4734bb941"), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.TableRow>(new global::Io.Cucumber.Messages.Types.TableRow[] {
+                                                                        new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(136, new System.Nullable<long>(18)), "expected")}), "f7590edff68a865986fcf3e51e05c0e6"), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.TableRow>(new global::Io.Cucumber.Messages.Types.TableRow[] {
                                                                     new global::Io.Cucumber.Messages.Types.TableRow(new global::Io.Cucumber.Messages.Types.Location(137, new System.Nullable<long>(7)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.TableCell>(new global::Io.Cucumber.Messages.Types.TableCell[] {
                                                                                     new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(137, new System.Nullable<long>(9)), "5"),
-                                                                                    new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(137, new System.Nullable<long>(18)), "25")}), "c30e5cf6c5c9ea5db545ef20fba5e89b"),
+                                                                                    new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(137, new System.Nullable<long>(18)), "25")}), "60d45c1f73ee74538a7838ef79c593cb"),
                                                                     new global::Io.Cucumber.Messages.Types.TableRow(new global::Io.Cucumber.Messages.Types.Location(138, new System.Nullable<long>(7)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.TableCell>(new global::Io.Cucumber.Messages.Types.TableCell[] {
                                                                                     new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(138, new System.Nullable<long>(9)), "12"),
-                                                                                    new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(138, new System.Nullable<long>(18)), "144")}), "7bf3ed754afd9b5c97020a3fcd94e11d")}), "c64e97c819bcd45083f2a2955de9077c")}), "40e25e91bb2ce5519fea8bc27fb5cb31")),
+                                                                                    new global::Io.Cucumber.Messages.Types.TableCell(new global::Io.Cucumber.Messages.Types.Location(138, new System.Nullable<long>(18)), "144")}), "bfa14c0154bcda5ea5a471fd218e3f50")}), "15602466716c375198a83556eb937e67")}), "225ea3a9a2bb7e5790c05ca5961ebeeb")),
                                 new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(142, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Reciprocal of 1 is 1", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(143, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I take the reciprocal of 1", null, null, "4897fbe58f1e78569d1efc91ce37fa50"),
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(144, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 1", null, null, "efe16faf3524085d88c01a733cee58a6")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "bd089d387da68f529b6cad2e7b33162d")),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(143, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I take the reciprocal of 1", null, null, "0f13e046f8f41d5d9275cecfd205c012"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(144, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 1", null, null, "5d40e8ba3c09555ba53d9151d7cd75ed")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "cd5069c5c2b0bb55b960dce36e0d6a30")),
                                 new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(146, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Reciprocal of 2 is 0.5", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(147, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I take the reciprocal of 2", null, null, "e5aa4d22b5a76a58b73cbad756c4fbd3"),
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(148, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show \"0.5\"", null, null, "702e8d5931dd36598ca00b17e516075d")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "af40424cec48a257be7f9c9d00884797")),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(147, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I take the reciprocal of 2", null, null, "6db9aac0357d05528aae9a5f8cca8c4f"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(148, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show \"0.5\"", null, null, "9003dce22f9d0c559d3365880cd844de")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "f8bac9e3562cde54888fefdc29fa7739")),
                                 new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(150, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Reciprocal of zero is undefined", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(151, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I take the reciprocal of 0", null, null, "fd32a44f6664ce598a975b3ceb21c9aa"),
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(152, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should contain \"Cannot divide by zero\"", null, null, "5092b2f5785f4950ac20cef6ed488199")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "44a726476f776551a2220a0d149be820")),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(151, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I take the reciprocal of 0", null, null, "10866487e34c0b5b96110b982eb9b883"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(152, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should contain \"Cannot divide by zero\"", null, null, "820cbcbf0edebc59848efa3b6b1728ed")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "cd63fe71d16d69568dfedd06155cf1f1")),
                                 new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(156, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Negating a positive number gives a negative result", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(157, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I negate 7", null, null, "1d392c67857b375e95c5ee1f14bcfe3e"),
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(158, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show -7", null, null, "6f0e8d836ab3335cafcf76b0067d8fe9")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "556a4546cc18825fa46c1506cfb9a616")),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(157, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I negate 7", null, null, "61beb86da32d205786b9626ebcb8d189"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(158, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show -7", null, null, "7115dc64890e6257a1b6da9b5232fac3")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "104da6acb343ac56b95dea66f2157479")),
                                 new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(160, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Negating zero gives zero", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(161, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I negate 0", null, null, "1938f49e311a5e58aa73ad9cf0e12e6b"),
-                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(162, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 0", null, null, "a5840b3c182e2d5783eb5e2bc0e801c8")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "7d75abb0f309ab5a8e36d3d2aae2b5d3"))})), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Comment>(new global::Io.Cucumber.Messages.Types.Comment[] {
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(161, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I negate 0", null, null, "d01fa326df503e5b90d388b0f0a44eda"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(162, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 0", null, null, "22c5994eb3d2315885f0d0e0ea9a1824")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "22db9a024b70f05b8913101ad0a685ae")),
+                                new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(166, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Backspace removes the last digit", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(167, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I enter 123", null, null, "bbc4313e6048575986b1ccf06ab0d91a"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(168, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"Backspace\"", null, null, "4844311a7af9b552b18dc010c0781244"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(169, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 12", null, null, "ad557689b5afd458a02241ab17db24b0")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "04ae6812e423e152b498630b8f763f9a")),
+                                new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(171, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Backspace on a single digit resets to zero", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(172, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I enter 5", null, null, "3fdd1986f467565e847f606a5a1c4e08"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(173, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"Backspace\"", null, null, "a9bbe9601aac80548e847a402ee99c31"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(174, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 0", null, null, "ad2207e0ecb04e5ea543a99388e51bf2")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "5cff5ffef309d250a94a759822b9c37b")),
+                                new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(176, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Clear Entry preserves the pending operation", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(177, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I enter 5", null, null, "d6539c5123c2f65482fa852fbe6bd0d2"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(178, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"+\"", null, null, "76718127395b8c5f96778ff8705ad142"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(179, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I enter 9", null, null, "0780a1825aac1b5aa8612d3b3bc6a9a6"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(180, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"CE\"", null, null, "77aa89a4daba35529c15daa65e961d97"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(181, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I enter 3", null, null, "7440437e9011d851b1f0e97460a2578d"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(182, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"=\"", null, null, "296641af8aaf985d870b19d263948976"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(183, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 8", null, null, "949a2c86e99b41568ab58da94d700c15")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "995514bd40dd2f5a8cc92c562a498ebb")),
+                                new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(185, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Clear resets the entire expression", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(186, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I enter 5", null, null, "77e918dcfac4af5696a1b7c5343b77ee"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(187, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"+\"", null, null, "fefe8fd189447051a3277dad44f716db"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(188, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"C\"", null, null, "aa9ad7df24801357896053bd3c1af591"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(189, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I enter 3", null, null, "cb1dd6d4361652508efa7856b1986d85"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(190, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"=\"", null, null, "5435a12048f377559dbaee7c385d1c40"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(191, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 3", null, null, "5cadc934dcc7a851aff7e443dde7d066")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "ae9346b8c3c09357a19135e8c0009214")),
+                                new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(195, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Percent in a binary context shows the percentage amount", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(196, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I enter 200", null, null, "3eee5d5e510a115eab9a76374aeac16a"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(197, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"+\"", null, null, "b4e5f4cea25b7f5fabe1fc6d40929821"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(198, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I enter 10", null, null, "4519379de234fc5e980e1f5fa6eeaa0a"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(199, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"%\"", null, null, "7a7c2ccd0ec7985fa7e013b84ee7c1ce"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(200, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 20", null, null, "a504a73e6269bd52a76119f318be057c")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "c340ef7cc9a6695f865acc9f06bd77b3")),
+                                new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(202, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Adding a percentage of the base gives correct total", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(203, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I enter 200", null, null, "736c6cf7cd91a156a6ded1e3910cb60a"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(204, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"+\"", null, null, "79d13bfe724b7f5587e3b364610e5f9a"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(205, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I enter 10", null, null, "250a803f20f5f65ea8d25eb42522ce6b"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(206, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"%\"", null, null, "8e765730f559ac5b922f077ea40367f0"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(207, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"=\"", null, null, "9929eae4450a3d5188a17ecd7963fd81"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(208, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 220", null, null, "7411a48ef611b058be711c6dbac951f3")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "d256757cab7f995e8d312a19ca54623e")),
+                                new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(212, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Entering a decimal number directly", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(213, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I enter 3", null, null, "29e7ab0568f246508c18e175bcea9733"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(214, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \".\"", null, null, "757c8ca3080e045b9dbaec04e7b23545"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(215, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I enter 14", null, null, "553deacec178485492ff9dda3d69bc93"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(216, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show \"3.14\"", null, null, "af7d76962349bb5f9a4aa385c55defbc")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "7652b9cd324ddd589be7e4076ac182f2")),
+                                new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(218, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Arithmetic with a directly entered decimal number", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(219, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I enter 3", null, null, "b8cba5586fdb715795fa4c67d73cb479"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(220, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \".\"", null, null, "2efe83c1aa82a557bb24f98b416edca6"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(221, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I enter 14", null, null, "fa9829920d4ae45d8e930ce375e8169d"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(222, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"+\"", null, null, "06d809bfcd0cb35fac083f6f6a30366e"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(223, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I enter 1", null, null, "f132ad5ce2ed5f52975d938e83fa5751"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(224, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"=\"", null, null, "15ea27243cdf6158b62723ddaf717276"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(225, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show \"4.14\"", null, null, "f94d1231d1a6e75a923c65b53a83be80")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "1ab2a9fea509ab5194c1045e4af248b9")),
+                                new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(229, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Chaining subtraction after addition", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(230, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I add 5 and 3", null, null, "f3fc6525a2c3585abc8b4ef59358851e"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(231, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 8", null, null, "2cbd55b9aa95d7538de7e18bc0eaabfb"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(232, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"-\"", null, null, "dc494f349e786e52a15ac04c3372ffb4"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(233, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I enter 2", null, null, "9750974093dbcc5d829d133100670dfe"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(234, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"=\"", null, null, "419c2a27bb15aa559ae5e462287b6193"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(235, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 6", null, null, "e6446018b997d656a373cb66b991992f")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "7ba308acde6fc05d9ed1672e2acbc1c9")),
+                                new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(237, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Chaining addition after multiplication", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(238, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I multiply 2 by 3", null, null, "a9ae2094cf378b5ebd633fba6744150c"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(239, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 6", null, null, "b1f54da30da1515bbd1fde9829ebd26e"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(240, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"+\"", null, null, "44df1ee93ba0a257abce8af66fd65f44"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(241, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I enter 4", null, null, "281ff1f2d41cf0559c261a68e040200a"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(242, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"=\"", null, null, "8b60b1fc77638a5791e664731e0bb887"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(243, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 10", null, null, "c0539a57ee1f895e9540fca3c3459e0f")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "f1e736d199edc756891fcad030af551f")),
+                                new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(247, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Memory store and recall", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(248, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I add 5 and 3", null, null, "665582d45fc30d50a98cb4869d980873"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(249, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"MS\"", null, null, "30a700478a69fc58956b0314320017f1"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(250, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"C\"", null, null, "a054da95aafb6e55a20e47b9386ae3b2"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(251, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"MR\"", null, null, "84e3a20026998a5d822ed7a092f2ba76"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(252, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 8", null, null, "d2ce4e164d3e955b89717eee07c0a601")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "c556f48cbc87cb5a9c099d2ee1b494d8")),
+                                new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(254, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Memory add accumulates values", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(255, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I enter 5", null, null, "495893978bc5f7569f70bc83690d5e70"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(256, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"MS\"", null, null, "9713d44b05650450b83dd3384d361b45"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(257, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I enter 3", null, null, "8638324bdf988a5a8eb292186f017b0e"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(258, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"M+\"", null, null, "3d3be654d782bc5aa31a1ae3aa480943"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(259, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"MR\"", null, null, "1f6b7a0d248d93589f5da936cc5b47c2"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(260, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 8", null, null, "46825bb045482a55b907782c4b585036")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "d21020d3f4439c5084e79f4c90bad5a5")),
+                                new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(262, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Memory subtract reduces the stored value", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(263, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I enter 10", null, null, "c8caf3ac6b82be58a387b0cdb61b29e8"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(264, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"MS\"", null, null, "819e25a3349bdb55bf5fe4f29738890b"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(265, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I enter 3", null, null, "bfa4f10cc0564d508832396eef847443"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(266, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"M-\"", null, null, "ce51d573fa0ac355bc019abb38f78437"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(267, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"MR\"", null, null, "fc982f17ceb0fe55976cf593634cc22c"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(268, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 7", null, null, "9eaa5cf5c5dd4a55850c7b1f89b472f0")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "e065eb46e931d25092cc764e2e6076c8")),
+                                new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(270, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Memory store overwrites the previous value", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(271, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I enter 5", null, null, "09e26e027a367a5db1e6472188dea4f0"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(272, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"MS\"", null, null, "ea38242c412a1c5f832b45aaedec3615"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(273, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I enter 10", null, null, "fa25d1d8efb2ee57b23d4892a9834548"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(274, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"MS\"", null, null, "cad63ec9835b7e55bd524b1cbe35be96"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(275, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"MR\"", null, null, "e5093e894446875bac889437d3a97260"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(276, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 10", null, null, "d25152c58f95695b992362b4ba9f686a")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "e22c365a85b9ec5583300791b5b51bc8")),
+                                new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(278, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Memory clear then store a new value", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(279, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I enter 5", null, null, "25e7ecb558ebbd5496db3a596705ce15"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(280, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"MS\"", null, null, "c9451400106a985a8f8051e744d21228"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(281, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"MC\"", null, null, "4993c2afd5693f5988fe756e24f2ca45"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(282, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I enter 3", null, null, "cacb632f527ced5f8b214795e8ef80fa"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(283, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"MS\"", null, null, "4c6d7cc3a5fd9659aa46caf338e9a7a0"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(284, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"MR\"", null, null, "64302eb8d3a00153b5dba5ea7b6ce1fb"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(285, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 3", null, null, "bafad65c103408538f2e586acf4cf551")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "aeb678750f268e549ddb01d2f054c76d")),
+                                new global::Io.Cucumber.Messages.Types.FeatureChild(null, null, new global::Io.Cucumber.Messages.Types.Scenario(new global::Io.Cucumber.Messages.Types.Location(287, new System.Nullable<long>(3)), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Tag>(new global::Io.Cucumber.Messages.Types.Tag[0]), "Scenario", "Memory add multiple times accumulates correctly", "", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Step>(new global::Io.Cucumber.Messages.Types.Step[] {
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(288, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I enter 5", null, null, "b1678cbe0d2c5f5c935e62c063b8a2bb"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(289, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"MS\"", null, null, "4f34b94fe1421d54b1ff19097a47e70c"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(290, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I enter 5", null, null, "a94d51e7d9530c5891073aff1cb334bf"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(291, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"M+\"", null, null, "34f17b696c1c6e57af0b9bf41c22715d"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(292, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I enter 5", null, null, "3e646ff312789e51b5ce58ee4dcf1bf1"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(293, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"M+\"", null, null, "e80cc23170b30d5286ff2390a9b187f0"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(294, new System.Nullable<long>(5)), "When ", global::Io.Cucumber.Messages.Types.StepKeywordType.ACTION, "I press \"MR\"", null, null, "f46bcfdad1d4685d8eb538cce4881c5a"),
+                                                    new global::Io.Cucumber.Messages.Types.Step(new global::Io.Cucumber.Messages.Types.Location(295, new System.Nullable<long>(5)), "Then ", global::Io.Cucumber.Messages.Types.StepKeywordType.OUTCOME, "the display should show 15", null, null, "1e08956cf5389658a2104ee8144b0818")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Examples>(new global::Io.Cucumber.Messages.Types.Examples[0]), "db33eb75cd6ea95d92b30b53e0898d66"))})), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Comment>(new global::Io.Cucumber.Messages.Types.Comment[] {
                             new global::Io.Cucumber.Messages.Types.Comment(new global::Io.Cucumber.Messages.Types.Location(9, new System.Nullable<long>(1)), "  # Section 1 – Smoke tests (one named scenario per operator)"),
                             new global::Io.Cucumber.Messages.Types.Comment(new global::Io.Cucumber.Messages.Types.Location(27, new System.Nullable<long>(1)), "  # Section 2 – Edge cases"),
                             new global::Io.Cucumber.Messages.Types.Comment(new global::Io.Cucumber.Messages.Types.Location(49, new System.Nullable<long>(1)), "  # Section 3 – Boundary values"),
@@ -324,312 +472,563 @@ namespace CalcAutomation.BDD.Features
                             new global::Io.Cucumber.Messages.Types.Comment(new global::Io.Cucumber.Messages.Types.Location(94, new System.Nullable<long>(1)), "  # Section 7 – Square root"),
                             new global::Io.Cucumber.Messages.Types.Comment(new global::Io.Cucumber.Messages.Types.Location(121, new System.Nullable<long>(1)), "  # Section 8 – Squaring (x²)"),
                             new global::Io.Cucumber.Messages.Types.Comment(new global::Io.Cucumber.Messages.Types.Location(140, new System.Nullable<long>(1)), "  # Section 9 – Reciprocal (1/x)"),
-                            new global::Io.Cucumber.Messages.Types.Comment(new global::Io.Cucumber.Messages.Types.Location(154, new System.Nullable<long>(1)), "  # Section 10 – Negate (+/-)")}));
+                            new global::Io.Cucumber.Messages.Types.Comment(new global::Io.Cucumber.Messages.Types.Location(154, new System.Nullable<long>(1)), "  # Section 10 – Negate (+/-)"),
+                            new global::Io.Cucumber.Messages.Types.Comment(new global::Io.Cucumber.Messages.Types.Location(164, new System.Nullable<long>(1)), "  # Section 11 – Backspace and clear controls"),
+                            new global::Io.Cucumber.Messages.Types.Comment(new global::Io.Cucumber.Messages.Types.Location(193, new System.Nullable<long>(1)), "  # Section 12 – Percent"),
+                            new global::Io.Cucumber.Messages.Types.Comment(new global::Io.Cucumber.Messages.Types.Location(210, new System.Nullable<long>(1)), "  # Section 13 – Decimal input"),
+                            new global::Io.Cucumber.Messages.Types.Comment(new global::Io.Cucumber.Messages.Types.Location(227, new System.Nullable<long>(1)), "  # Section 14 – Chained operations"),
+                            new global::Io.Cucumber.Messages.Types.Comment(new global::Io.Cucumber.Messages.Types.Location(245, new System.Nullable<long>(1)), "  # Section 15 – Memory (MS / M+ / M- / MR / MC)")}));
         }
         
         private static global::System.Collections.Generic.IEnumerable<Io.Cucumber.Messages.Types.Pickle> PicklesFunc()
         {
             return new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.Pickle>(new global::Io.Cucumber.Messages.Types.Pickle[] {
-                        new global::Io.Cucumber.Messages.Types.Pickle("d34e33ab2144a65c9cf3e99180198e40", "Features/Calculator.feature", "Add two numbers", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                        new global::Io.Cucumber.Messages.Types.Pickle("97ef687739738d58a3a730d9e7d58032", "Features/Calculator.feature", "Add two numbers", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "8a889e7648352150af69abe2f8057f96", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "d050a4821e95a2519d938f2845cef527", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "b31375c76022ac59b70abb16d1305a8e"}), "71d9a82da034335b904a449cc25292d5", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I add 7 and 5"),
+                                                        "6e69f6243691ed549f3268bc0861496b"}), "e51f08258fedc557b8af722350763499", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I add 7 and 5"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "56d6a37a83ca7f51bef11ba42edafc4e"}), "7c4e0952d7d9f15f87a2dad9a7c8b3aa", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 12")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "7271d044cdbc15519ac5b74184773598"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("63b07c06678dd153b2da995720efc7e8", "Features/Calculator.feature", "Subtract two numbers", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "eaef057975fbfe50b73103320d5f74a3"}), "f033f682d2fcb15aa05619d9d3317bc5", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 12")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "6436f0671a60e45b876ff1513d1e6245"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("a8b9db1b3c0f95518fbe50867455cb2e", "Features/Calculator.feature", "Subtract two numbers", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "d4a1e6f010d91951a69c4e85c26d1e7e", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "fab6d9e437647a50a59afbbb5b445e72", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "d5ea8fc6df38cc50b1068f9c243aab25"}), "841996762e0d615b8006488c2f361271", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I subtract 4 from 10"),
+                                                        "e9ff5a3b6b65e85e919de35fc563c926"}), "d80ed9ab47788a59aa8b37b371b946d8", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I subtract 4 from 10"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "5b3518c093e90b57bfcb045aa4541072"}), "78542dcc7931da579d9d369f15d83b6d", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 6")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "4bc668462d4d3859af7f2e2b04733951"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("91b6e0ab4d5ff45099b7352fbc17e1d3", "Features/Calculator.feature", "Multiply two numbers", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "57d9df11435c9659aa48612903b57d8f"}), "41a57fdf2289b15183c5c9e1eaeccf32", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 6")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "823d0ceac41e1753bb90a1c5af9c4910"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("867d9de4d88a1a58867885b1f49e52aa", "Features/Calculator.feature", "Multiply two numbers", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "9b5bbf2e51cdf555bcdffa5ddd91a44f", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "7fd9482d47092c5797ec80d141fcb808", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "9dd67062fe22b550a235d41cc06465cb"}), "4baafdfab53cd15db24daabe9d738f93", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I multiply 3 by 3"),
+                                                        "33cf6749d3b8905c80920d5b18295c35"}), "7b6085a121534c57adc7ab5479b2b1e8", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I multiply 3 by 3"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "0b7b92701060365cab07c05724c00737"}), "304c2d7a1bfb8053babcf0b9d66163c3", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 9")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "47ea9fdb5a8c6752b2203735391570c6"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("85934e15c398e3558c7a466ab8085165", "Features/Calculator.feature", "Divide two numbers", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "dcf6ffafd9086b5f9d68451fe91c8e83"}), "b68c4802b8e88f59b85f92dbd98f76db", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 9")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "1c693e45345c6e5f8493556bcf74a26a"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("dfe8374e17fd5e5aaba10a3aa3a18690", "Features/Calculator.feature", "Divide two numbers", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "9d67518cb9960a5a91963ec3d126eacc", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "2fc406e4b462ce5996d41a57d6b901d9", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "fd3b02d2336e8058b11cad9c230718d5"}), "944f0917b15ed05697eda56dfd8d7a28", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I divide 20 by 4"),
+                                                        "3ddc94714653bd5390d69685967d9f0f"}), "8799cf7266b88f5b9e7b60af3d52526d", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I divide 20 by 4"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "f4d23c936051d052bd157f61ff010df3"}), "ad31d4df7906c854b22708627552bbec", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 5")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "0a58e836fa1f6655aae069444600986f"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("258bc9f1bd475558a6093d6d25de28e3", "Features/Calculator.feature", "Division by zero shows an error", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "6a1fcf450cf64b54a0d3f067b93a360c"}), "710db8071c1ba851aa482d6e2b14636e", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 5")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "9842617214456455bff6c22c5af3443f"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("7cdfd39952097156b5055b5973bd1797", "Features/Calculator.feature", "Division by zero shows an error", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "cac9b5a647f64f588316b93c95df35cd", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "52c4d4c9b371f457ab29389b1e279e6e", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "29feab2832d36c5bad6b6decaa05fa2f"}), "73b401dda51b835bb801772339f7d886", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I divide 5 by 0"),
+                                                        "a373cfb388b0895b8b42f305a36aca5b"}), "6bd61fd739416751b19c9d6c0ba81ddb", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I divide 5 by 0"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "ae2928498a9c0d5d93fbe8bc6f319d57"}), "e60d32715610d35e8632561b66e9d3cf", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should contain \"Cannot divide by zero\"")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "bb3bb15bdb80ae5e8a5bc71bd967210f"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("62573e465bc91653bca7a5b1638c4673", "Features/Calculator.feature", "Subtracting a larger number gives a negative result", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "e1a8ab8b95b3015cae6e66a0406c38d5"}), "8fc0b1e43079bf518d5fd641d0f40dee", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should contain \"Cannot divide by zero\"")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "576d3c6b0582ab5a9a336c0e98295c89"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("cc2fce645b9b405c9db4aa3cc7cecf69", "Features/Calculator.feature", "Subtracting a larger number gives a negative result", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "5f7ca57dadc5775d8fbc3f0b14b658aa", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "7aa5a6f17d021052b97a96d922b5d7ef", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "c2ab23d4f2d6fc529ca8b6f5cac59293"}), "25a46928625d02588e3a9705ee492397", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I subtract 10 from 3"),
+                                                        "d60715ed295b9b58a8454d2f960301b8"}), "0b61bc11263cff5d9be10675bf7f1899", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I subtract 10 from 3"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "6157a543455f8e5fbccbb56dfacba97c"}), "81858af43b89c75bae56412e206024f4", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show -7")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "3052d633b5e6985e99a9a4b393647b84"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("73bfb3499f43fb5a917c27f721f73c81", "Features/Calculator.feature", "Multiplying any number by zero gives zero", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "b8081f6a15153058a2b912079c78dd7f"}), "094f34560b474d56b1ba214e76f625e0", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show -7")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "b0490027757c815ba7673409e7a67f28"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("195d058551d48d559a54f4f686578ae7", "Features/Calculator.feature", "Multiplying any number by zero gives zero", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "3ce0448cc5b84453bd942bcefd4bc0f5", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "513915027c8faa529d868903dcfbc020", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "d23c2eeed8a4d6549ecd3a5a54f0941c"}), "61d914aa9533ee598e7d67b0eae8654a", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I multiply 99999 by 0"),
+                                                        "6b40c16abefdcd58801fb3a66c5634fe"}), "78d7667d2b5a0351ba07eb53317c23b4", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I multiply 99999 by 0"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "06cde9405918ec5ab80a7376ae4d9fd0"}), "baf8106d5f2c8a5c9dba7b6f397d48e7", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 0")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "1f5a2900f55f1b50979814a2dad183ba"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("bf90e20fb7feba5d8cee83c314762c6f", "Features/Calculator.feature", "Division producing a decimal result", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "ecb528673b1bed5c8c193594e2457907"}), "d06e514a64c99457bb852ed56085f47e", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 0")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "c71c8de83be1e252815eee284754f7be"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("6ae70ba68b1a4856b7afade1e16d597e", "Features/Calculator.feature", "Division producing a decimal result", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "7fbd6c009c14655abe77298c10efc83f", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "12499482e3baa05baa086a145e00a835", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "6cc21d5acf22e3579449dd393085bbc8"}), "a594801e308f7b5f985cee95f4c892d5", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I divide 1 by 4"),
+                                                        "a15abff3cb93c4598fadf9983b5598b7"}), "a96cb40d772c3a5ca01267fb4944e873", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I divide 1 by 4"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "3ffe105c2217e05d8add1d036860f939"}), "2169f978973fa65b9bb66e8cd628f15b", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show \"0.25\"")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "9b59f54709e4f7569a81c59b6db4f06d"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("420bc9895d5c125bba14e79a74b56c91", "Features/Calculator.feature", "Division producing a repeating decimal", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "584c5b698339bd508f99362e229998c0"}), "27579465142202509dd3fd1f0c9c7961", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show \"0.25\"")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "f71668f20cba87568941cf3ac0628975"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("6e536acb7a4be05cb74448891fb36dd4", "Features/Calculator.feature", "Division producing a repeating decimal", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "cf6300fa8079b25ba329da2ae2b3d52a", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "8f93786b38898b54861d8580711b96bd", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "c191db62d7a89f5a8111aec2fcba6d61"}), "334e18360a574c58b7d4dd436c3abb65", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I divide 2 by 3"),
+                                                        "ca249d9f91775f5f96e58c57a93ff207"}), "3a04bb740149e95b92641455ccafc6ad", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I divide 2 by 3"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "19054618d73ef659a98f56cfdff8f524"}), "35fe8517b50bf85981256048081e5377", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should contain \"0.6666666666\"")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "b9a5c4b431549653a4eab05bb2a57c1d"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("3d740809b2a75b50b9c17b1c6fce5717", "Features/Calculator.feature", "Boundary arithmetic – 999999999 + 1 equals 1000000000", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "0fecc4a4fb1a185ca34e7baff68230c6"}), "d2f100787eac855f97fd7ef808f8eb0e", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should contain \"0.6666666666\"")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "603f1419ba6a7350807e676a742a35d5"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("78510ac39a82cd5ea8cb8462173df084", "Features/Calculator.feature", "Boundary arithmetic – 999999999 + 1 equals 1000000000", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "fad440ebbc408656b6b346c7cf5e5f2a", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "69342eb90403775bb245a9af60dfbe3e", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "a9b0b8d489174850b1996fb23cc6f8e7",
-                                                        "cef5f73fd3be6d598ba9e07e092a1f0b"}), "1f61cc66c13b4b55a2247e058638b9ad", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I calculate 999999999 + 1"),
+                                                        "b2c7d6aa66877157a29c2e6c06200363",
+                                                        "8bc0fbceb8f65f54846afc6e0aec254f"}), "7e563ed8eeeab35a981390809245c7d7", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I calculate 999999999 + 1"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "e345fbb026db045082b9f7afe68050fd",
-                                                        "cef5f73fd3be6d598ba9e07e092a1f0b"}), "64d90423355ea65bb845e4278648fb47", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 1000000000")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "133d8ad9d02e5751a0fc4a8c7dad2d55",
-                                        "cef5f73fd3be6d598ba9e07e092a1f0b"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("a3822abe21041a5b91915a61caeacfe7", "Features/Calculator.feature", "Boundary arithmetic – 2000000 * 3 equals 6000000", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "e60dbaf7fb560252b2af988a50f585f6",
+                                                        "8bc0fbceb8f65f54846afc6e0aec254f"}), "e4417f93c88dd456a9a80a1778e76c08", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 1000000000")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "d1e01c741c85205581067df48fd1edc8",
+                                        "8bc0fbceb8f65f54846afc6e0aec254f"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("6fd02ddc6db7c05c998d62ae09e24973", "Features/Calculator.feature", "Boundary arithmetic – 2000000 * 3 equals 6000000", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "98b676e80ef20c5f8dbb3154dd68128d", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "402eaa53a19bdc5ca97d5cf451d8434d", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "a9b0b8d489174850b1996fb23cc6f8e7",
-                                                        "4423883ec0e4b750ad955e84773963d6"}), "0c333688e8afb254ae12a0314417d19a", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I calculate 2000000 * 3"),
+                                                        "b2c7d6aa66877157a29c2e6c06200363",
+                                                        "2604e344a520925fa57a02d1bfb2fbbd"}), "f7f9bff3db42b657a4743e425ceecf0d", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I calculate 2000000 * 3"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "e345fbb026db045082b9f7afe68050fd",
-                                                        "4423883ec0e4b750ad955e84773963d6"}), "d9c616ed15941453b6e9b4516968d0bd", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 6000000")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "133d8ad9d02e5751a0fc4a8c7dad2d55",
-                                        "4423883ec0e4b750ad955e84773963d6"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("66c90e964afcef55b308fb55dd1f2d3d", "Features/Calculator.feature", "Boundary arithmetic – 0 + 0 equals 0", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "e60dbaf7fb560252b2af988a50f585f6",
+                                                        "2604e344a520925fa57a02d1bfb2fbbd"}), "c22eebb6612c7b549ca70acfda8a5476", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 6000000")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "d1e01c741c85205581067df48fd1edc8",
+                                        "2604e344a520925fa57a02d1bfb2fbbd"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("a731fbc3fd68395294800e728b71f8ea", "Features/Calculator.feature", "Boundary arithmetic – 0 + 0 equals 0", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "6c2ac4373060e25fa1f8dc05b52c6451", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "8cddb1d34f3d775ab44904c6657bb691", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "a9b0b8d489174850b1996fb23cc6f8e7",
-                                                        "eb2ba9a628f38b5ca42fc4aba3dff41b"}), "af20ab988c9bff5a85f98540a89062c5", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I calculate 0 + 0"),
+                                                        "b2c7d6aa66877157a29c2e6c06200363",
+                                                        "2ca1236718690a55b2e6d89f6b33efd4"}), "7c14e3872d5e9e55b24fa3614f93605d", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I calculate 0 + 0"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "e345fbb026db045082b9f7afe68050fd",
-                                                        "eb2ba9a628f38b5ca42fc4aba3dff41b"}), "b44dfcd47a3bd0598d08b3d39f5865c5", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 0")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "133d8ad9d02e5751a0fc4a8c7dad2d55",
-                                        "eb2ba9a628f38b5ca42fc4aba3dff41b"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("281d4d43de268658ad91833ff4ec12cf", "Features/Calculator.feature", "Boundary arithmetic – 1000000 / 4 equals 250000", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "e60dbaf7fb560252b2af988a50f585f6",
+                                                        "2ca1236718690a55b2e6d89f6b33efd4"}), "d73ba14187666652b62809029908eda1", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 0")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "d1e01c741c85205581067df48fd1edc8",
+                                        "2ca1236718690a55b2e6d89f6b33efd4"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("7ecd3bf1f4806857a2150de43204dd74", "Features/Calculator.feature", "Boundary arithmetic – 1000000 / 4 equals 250000", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "46d82cd22b8c2954be308a745e62904a", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "16d30d259adc6350804aea09ea188b23", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "a9b0b8d489174850b1996fb23cc6f8e7",
-                                                        "d0a1ffbdf3ebbf54bcfd729efa33f2f9"}), "479ed844c5b6c45abb234e420625301e", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I calculate 1000000 / 4"),
+                                                        "b2c7d6aa66877157a29c2e6c06200363",
+                                                        "6b94f05ee19f915693fa94bc83cbe295"}), "009b86a29ea7bc558e22e0e0bdc0e4ea", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I calculate 1000000 / 4"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "e345fbb026db045082b9f7afe68050fd",
-                                                        "d0a1ffbdf3ebbf54bcfd729efa33f2f9"}), "10b0f167c2d1f452b2f44838b4d054af", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 250000")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "133d8ad9d02e5751a0fc4a8c7dad2d55",
-                                        "d0a1ffbdf3ebbf54bcfd729efa33f2f9"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("ac833bda3b0bf15792b058fabb90e8e4", "Features/Calculator.feature", "Dividing a number by itself gives one", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "e60dbaf7fb560252b2af988a50f585f6",
+                                                        "6b94f05ee19f915693fa94bc83cbe295"}), "ba7073f663a34a5e9b3beadf6ec91190", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 250000")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "d1e01c741c85205581067df48fd1edc8",
+                                        "6b94f05ee19f915693fa94bc83cbe295"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("08303b1b6fd5535cad744e35c2c3c3a7", "Features/Calculator.feature", "Dividing a number by itself gives one", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "1984a806a111e05fb189392aca27c598", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "883ee81aac310c56834819a274070cc4", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "e5fbaabe87f62150ba52db86d88ec5d4"}), "5af0f776fbb2ce5cb578614f0fcc6311", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I divide 123 by 123"),
+                                                        "56ce1d1d48dbeb5eb570977f9f735a89"}), "dc16176f9eb2ff50862ad49a10cd4ea4", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I divide 123 by 123"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "25d535689198275aaac9e0c4abd2156b"}), "f3757c6025f493569d85f237511f6b40", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 1")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "3551be6be8901c59acaa7265132c67b7"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("ecf4d7371aacd65c84be4c146124e0c1", "Features/Calculator.feature", "Subtracting a number from itself gives zero", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "f90190a45d4ce857ad638398dc787e91"}), "f887a502183c125e8f348f967434e604", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 1")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "e35c15078da9fd5f90b78363ae1ded9d"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("68a2e151e936035da129248abeba99d7", "Features/Calculator.feature", "Subtracting a number from itself gives zero", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "fa9f296961f5415486946dc06410be5e", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "6c122fdd08a640578cad6f8e07ecbc4a", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "2172e570de2d2f53bad822d3cd6a48b9"}), "b8885fbc23545553be8354de5be0d4d4", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I subtract 45 from 45"),
+                                                        "9e5d7e8697e23a509869dcbd0780399f"}), "81dff01ae5498752bb3973bad3e290cf", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I subtract 45 from 45"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "0e5bbc6ae781d05fabdc82bfd3ef5c8c"}), "17e2c66c5ddd0257be02bd950cbd1dbd", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 0")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "6da449d04ade2956bd1a36d8cb80f2a9"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("ec72c20ffc74695fa21af77c759c452f", "Features/Calculator.feature", "Adding zero does not change the value", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "d9712e47b9a571529b903f74192df782"}), "2f267cbbae93f854a26f4c8f047f7878", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 0")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "2b675cc774dccf578455ef7e93f588bd"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("995c2d567694f553a7a00429ddd7b024", "Features/Calculator.feature", "Adding zero does not change the value", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "4d3065df11933250ba136b81eba62335", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "4c3fd9f040deac54826be35a235a207a", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "189a53a42cc3505bb20b23f527473ee7"}), "0081801ed65bcf57b5a3df974cf903f2", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I add 7 and 0"),
+                                                        "f2436374182f90558d61ab0be79ab998"}), "733877cbdd68e75994c85867b0e009e4", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I add 7 and 0"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "33895dca63069f559283cf590ba17f70"}), "1aec5dfb0f7b3c52b838a17402203191", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 7")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "bce6630dcb61295d8f4a4151e1ab967f"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("e516b766aba36951862c8e8e64ca663e", "Features/Calculator.feature", "Addition is commutative", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "aff175b70b9e765c9a97fb01d7d7a526"}), "f66171d98b3aa5538d02055d0c56a5fc", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 7")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "f548b2db71edc058833bf93778c622c7"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("251dd18b5a292d51a74ad5fe97877a00", "Features/Calculator.feature", "Addition is commutative", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "9ddf4d4995a2b6598d5761bc1b38adc3", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "11dece04a8a3bb53a2a6aa64231ea5bb", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "4b63749a176f575c925b6c1e78a800d7"}), "53c98b152a7b9f57bff37a934907dfaf", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I calculate 5 + 10"),
+                                                        "364d74da7e8d465abdba7b60099deb94"}), "d057982247922c5eaa509f329a6a2e3b", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I calculate 5 + 10"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "083f195374acdb5a8c36091bf31b3655"}), "33f8e2e44721bd5c92395562c0acc654", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 15"),
+                                                        "60031a9b4cf4e456af7f409c6fe18e15"}), "3151345910d45a5da171c5d3773b4a9e", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 15"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "c08a621a7f94915b85c17fec5231f8e0"}), "fd971b33c7fa8352b8c14a6cab878be5", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I calculate 10 + 5"),
+                                                        "d50513af9b293e5cb8174b831908cd5d"}), "2621a6c326c74359ab7756da6779da65", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I calculate 10 + 5"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "fcec5c15a352f15ba931dbce94461ea1"}), "b525f3cca3ad1256b02fa6621d97e088", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 15")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "8eb56a2a113392539a66e54ba6731632"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("9790c02b5aa8ca5296729964598866dd", "Features/Calculator.feature", "Zero divided by a positive number is zero", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "2208978351d95b56b5d71496c0cd6768"}), "df26d1575f45df5890d0455295550874", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 15")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "c527117d6dbd9d5cad857a9fd106376d"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("41483a58f1dbb959aae418f88f17adc5", "Features/Calculator.feature", "Zero divided by a positive number is zero", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "e9cd2c8c9fbedc5ba04d42c46dc253da", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "03d22482bb7ba65290322b30c2ad16bb", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "38ec91e53b730359859514a124fc6cd0"}), "179cd8056ce74e5897c09ab161d62754", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I divide 0 by 5"),
+                                                        "c3a3a5994248b054bba085d4b63c6a2a"}), "4d6819c94e29bc5aa168b6562fdca0e2", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I divide 0 by 5"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "c2f806913ec2a55287da96e46105851f"}), "6b3f061ae1ae6452bf4842fa6f89058b", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 0")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "f0d92ce2e642ff51a4276fd74088d981"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("0691a476a3e3e65c9589f49bbe42bee7", "Features/Calculator.feature", "Division with remainder as decimal", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "fa48eeea4c5ceb50a40c381fe7bd20c2"}), "a1a96ae85e56d85e8a75083c008e02b9", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 0")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "bba73322bcd8985dbf98ff23bb3acf28"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("e5073208b38f5c52a268ee868e5f30af", "Features/Calculator.feature", "Division with remainder as decimal", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "7e5b1d6a18e4cb589cf14fea967d5e71", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "9fa3d64da2ba1859928efa80028f5613", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "0814b128f951155c90810ed4014f96fb"}), "2fb8edcb1ef38d5fae28fd5458e33c76", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I divide 10 by 4"),
+                                                        "1856eedb6aca4b56bdfb6dc67ecc2e87"}), "b5c2dd503f653e55ad440ef3bd58ef6d", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I divide 10 by 4"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "b3328e995518b359ac18d97718b6cb39"}), "7e530644c801de568780accbffab165f", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show \"2.5\"")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "9f85e4cea747a55aa8039ffef804a0d3"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("76fc4b69c980af57aef934fde55338bc", "Features/Calculator.feature", "Square root of a perfect square", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "f80ba2ff6127995d99b2619d1c461866"}), "7bccd8db89232e5d926bb93d48c35428", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show \"2.5\"")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "d87adf1681803354959c57d558606c88"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("ce826d64a2fdd05c9a3f2689b99077cd", "Features/Calculator.feature", "Square root of a perfect square", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "f3005be7e95fac5e959d016406d5e87f", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "729dae23b08a595d802853937c2e9e5a", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "b613c9d3d1b87d55bac31b25533057ab"}), "d19dc49c80e5835eb918cc131ce555f6", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I take the square root of 25"),
+                                                        "91ba95618c81035ab250b76cda36bc5b"}), "fa92294daa52a950a1cf9ccb41f0e961", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I take the square root of 25"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "1fed411f1b237057afd332f4261de51b"}), "435e4deb1d12215ab3ac1be171d75e86", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 5")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "3a3603e303def95a984c7fb4e6c38ce2"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("233d8c0295abce51a3decb92c5aed0eb", "Features/Calculator.feature", "Square root of 1 is 1", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "01ae20ec9292e156bd504b82aeda396f"}), "fc6a0b939837645a925d29310bc008f5", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 5")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "fff9c6003ed73557bde5f0c1f965d278"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("45a3a9d81931a9548b5faa09abb55b1a", "Features/Calculator.feature", "Square root of 1 is 1", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "4173d9124d8bfc5bab399867751649e8", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "0268fb4082360d5fbdade6ac49dc68c7", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "cd6727ff274e2c55aed1590142ae9d6e"}), "f8c492766a134e5ca5145ad921b948ff", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I take the square root of 1"),
+                                                        "4d8b3aff495baa5f9af72058df775f48"}), "b8df0851d1fc835e962beb4acf191356", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I take the square root of 1"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "6adf80327034a95b98daa39dff3ba0a0"}), "af5d0cd95b7712598159b22b07529bf2", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 1")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "14a940e8f74ed656ab25c08a466dfa4d"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("41a76195511835549aac9ac694c3571e", "Features/Calculator.feature", "Square root of 0 is 0", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "771ecc19c4a9f6548e440b3f49370d78"}), "b0d8dba348d8ab529d33fce97d679cdf", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 1")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "61555e1951bdea59a64b97aa0ee306f8"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("be3a4586a42a515b99cf575f58f7088f", "Features/Calculator.feature", "Square root of 0 is 0", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "9fbf7d2d6a1ad8519ea3eefbfc2e9fbb", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "713520cda0a7e457b0e5baae56139546", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "1411aad69d217a5ba056ce48249c2fef"}), "0eb4cc15486974599a9e3b8322176b0d", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I take the square root of 0"),
+                                                        "dd4cd677a378ac5b8fc95cad68128231"}), "2b86ad7167d0685398f6f4927aa19dd5", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I take the square root of 0"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "7d1f61971c3c8658946efeb4eacb92b1"}), "32b8ea00cccf2850b9a3a305cd2caca3", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 0")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "bf1032e7a5c3f352b9a4633786828996"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("0c97601c2a6ba95493e83e5a9aee886f", "Features/Calculator.feature", "Square root of 2 is irrational", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "edbd6350ced89b5c9bf85655082542f5"}), "2211ea6cd4aa0b57b1b6685e39b8340f", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 0")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "91b02d626f17255883294147ded97f6c"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("887b8de4215f2b54b28b340d207baa81", "Features/Calculator.feature", "Square root of 2 is irrational", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "b0b28aae4dea6b54a2e1db48a80d4d89", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "b086e0c7d0def85597e4664f6e9b5b6c", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "e760b63e3e25d25b8b0ab4b8c695702a"}), "2158edc4f91d39598bf002c9b22a3023", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I take the square root of 2"),
+                                                        "d7749410e37b68519b1f5632bb1264df"}), "4ab34ecf1e256a518cbed8a9a2654c4e", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I take the square root of 2"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "78eed5c6dd0c7c529c30c35b83ae4089"}), "4e68cbf5b73a6358994633daabcf7054", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should contain \"1.41421356\"")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "bf4e5a9d41bbe9599799941b1b5f3d96"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("2e96e5557d71435f829cc6638eb4e4a9", "Features/Calculator.feature", "Square root of perfect squares – √4 equals 2", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "9d7abb045409585aa9421960185657f2"}), "4d9fe38dd5890656b0547603961d504d", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should contain \"1.41421356\"")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "8b34ee09592f9752937a0de9293e4643"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("3265b075fc94c6599f8644f8bc6b0571", "Features/Calculator.feature", "Square root of perfect squares – √4 equals 2", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "1b92293d466185579212a3d960611b26", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "0abf56ee1321435b95377c75fb5eff7f", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "1a2b9f4a1d4b1a5a98a9caeecaedab94",
-                                                        "0f3421aaeaaade5f8c0b8bff3b798a80"}), "027d7f60c192545bab807c85e9664f95", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I take the square root of 4"),
+                                                        "da84de6846fd4c518e50df61edbe7115",
+                                                        "ff39fb54fa286451b286c92eb84e0f4e"}), "ee3a03110f47505e9ea92a29a64de0aa", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I take the square root of 4"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "167629cf3fb91c539e9e2d50bef5b7ed",
-                                                        "0f3421aaeaaade5f8c0b8bff3b798a80"}), "0f6576c9425fab5082a75dc85aad7ffe", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 2")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "6eaeb0f7611c9a54934bb0452b2168d2",
-                                        "0f3421aaeaaade5f8c0b8bff3b798a80"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("9d929fd5d78e3955bdde3f200cebc7cb", "Features/Calculator.feature", "Square root of perfect squares – √144 equals 12", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "8a91a7cabd49b85ca984cc73377710f1",
+                                                        "ff39fb54fa286451b286c92eb84e0f4e"}), "2728bf9143188d5c89045fd17cd22db7", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 2")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "a2655d5cd8b5fc52bcca6f2b0804a5f9",
+                                        "ff39fb54fa286451b286c92eb84e0f4e"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("ba29264977942b518ebbdec4b2f3986b", "Features/Calculator.feature", "Square root of perfect squares – √144 equals 12", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "d8b9e07c24ca9154b883479a08f63b31", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "09dd5d4aed6fb35cb8d9500c6125bd5f", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "1a2b9f4a1d4b1a5a98a9caeecaedab94",
-                                                        "0e65f6d2a25d2a539cd59768ed658de7"}), "1f4f32ff4de8c953b335ed041bf79d58", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I take the square root of 144"),
+                                                        "da84de6846fd4c518e50df61edbe7115",
+                                                        "56bf3ca3a78a205a89ef2ed417146b12"}), "183d4e11701c3b5d9e5d1b1ce1ab01eb", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I take the square root of 144"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "167629cf3fb91c539e9e2d50bef5b7ed",
-                                                        "0e65f6d2a25d2a539cd59768ed658de7"}), "dda4d35fa851945987296a5c951bf842", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 12")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "6eaeb0f7611c9a54934bb0452b2168d2",
-                                        "0e65f6d2a25d2a539cd59768ed658de7"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("674b18cd953b11548afcfd8b08ba4ccc", "Features/Calculator.feature", "Squaring zero gives zero", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "8a91a7cabd49b85ca984cc73377710f1",
+                                                        "56bf3ca3a78a205a89ef2ed417146b12"}), "ef9b06a9d2e93e51b74082b34550dd28", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 12")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "a2655d5cd8b5fc52bcca6f2b0804a5f9",
+                                        "56bf3ca3a78a205a89ef2ed417146b12"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("58dbdaefeb26825a92c0600313a7aec3", "Features/Calculator.feature", "Squaring zero gives zero", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "d1711bca69dbf65f8f23107bc74aab1c", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "abcebcf82ab7735193e14a52d6d8a0e8", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "6b76aa92ab5e0b59b49c3a1bc22c3785"}), "b68475c193216c5c9aced1638e001610", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I square 0"),
+                                                        "6b08f4c3dce5e25cb0d2678c36eae18a"}), "7e8b02127ddf5a5e87f2f2138b0dacee", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I square 0"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "d4dc6cd49415b7508588f8de43c5b05a"}), "9040c2e51b9a8d5dbeaebe3ec5c3071c", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 0")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "85f44baf74696258aa8f09abb59a339b"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("850269bc71ab4a5d8fd2d38ffce25871", "Features/Calculator.feature", "Squaring one gives one", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "7a8f56bb7144ec5aa7b413c5f9e24589"}), "76d36b42e7134d55b332ca7883b97726", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 0")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "0a0cc21dcc99235ab3018005d484fc9b"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("72fb6c5441b13d5ab96b7c1d94d9db91", "Features/Calculator.feature", "Squaring one gives one", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "344d2817bd5387569fefd7f86289b757", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "7c7e893a3ca45b579e4176561210f798", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "ea2ce0e2e92c6b5c8f5e9ed9fde325bb"}), "4b67620f5dd4035f8bf7ae93aea0b68e", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I square 1"),
+                                                        "52ec37472f8da753b6a452289118ea38"}), "5f6b65751db9145baa5f40c72f962c23", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I square 1"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "0e89543c8952365bb68580f377456b8a"}), "c03541ef1907445cbdab66107024bcbb", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 1")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "f1ef7bc9f5f72d558ac30441b0962246"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("88d80f9830fb35529bea47643331ec24", "Features/Calculator.feature", "Squaring numbers – 5² equals 25", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "c7750ec3af18635da108772f8da6bc64"}), "ca1ad062ef608f56a76d0aaac06071c0", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 1")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "0f738b1e1c3db251a39e2e4edc9cade1"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("c5de22bd047e335d83e6a84d23e13a2f", "Features/Calculator.feature", "Squaring numbers – 5² equals 25", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "a950dbcd97226c5d93040ac968de4b7f", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "b9f2f2622b91c2509de191a3691a7b05", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "8e012d0e8f1e4e588ec6d94eb491316b",
-                                                        "c30e5cf6c5c9ea5db545ef20fba5e89b"}), "5e411ff8508f945db4e6234e7dc3c94e", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I square 5"),
+                                                        "5210c09132efd55c95d7dfe97283ac52",
+                                                        "60d45c1f73ee74538a7838ef79c593cb"}), "276edac5918c4b53aa3c1847250a04ed", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I square 5"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "3e54dc22c940fc59903337af23761089",
-                                                        "c30e5cf6c5c9ea5db545ef20fba5e89b"}), "0eec4659cf912a5693bbfcd8d0bfbf0a", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 25")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "40e25e91bb2ce5519fea8bc27fb5cb31",
-                                        "c30e5cf6c5c9ea5db545ef20fba5e89b"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("9f234371f4c1175d8cc64f6a506812b6", "Features/Calculator.feature", "Squaring numbers – 12² equals 144", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "b271e756dd80f857a01b2bb2e6a7e08b",
+                                                        "60d45c1f73ee74538a7838ef79c593cb"}), "4603ebf6a0237458b003bfee189ab7b8", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 25")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "225ea3a9a2bb7e5790c05ca5961ebeeb",
+                                        "60d45c1f73ee74538a7838ef79c593cb"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("0f85b11b766b895382195bd2e683e151", "Features/Calculator.feature", "Squaring numbers – 12² equals 144", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "c3e75c75623b10559ad6e3edad9d8892", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "2f3fbe0fa2b7e552a652bd53147107b4", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "8e012d0e8f1e4e588ec6d94eb491316b",
-                                                        "7bf3ed754afd9b5c97020a3fcd94e11d"}), "57886a473c916f59aa74eda164be70e6", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I square 12"),
+                                                        "5210c09132efd55c95d7dfe97283ac52",
+                                                        "bfa14c0154bcda5ea5a471fd218e3f50"}), "7696e364850e645b82d909edbcbb82da", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I square 12"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "3e54dc22c940fc59903337af23761089",
-                                                        "7bf3ed754afd9b5c97020a3fcd94e11d"}), "4a21309bf4870859a2293e549ab61134", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 144")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "40e25e91bb2ce5519fea8bc27fb5cb31",
-                                        "7bf3ed754afd9b5c97020a3fcd94e11d"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("652d717860a9895cac54005a5833dff4", "Features/Calculator.feature", "Reciprocal of 1 is 1", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "b271e756dd80f857a01b2bb2e6a7e08b",
+                                                        "bfa14c0154bcda5ea5a471fd218e3f50"}), "66813a22a457dd5e9cd5019b934d21fe", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 144")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "225ea3a9a2bb7e5790c05ca5961ebeeb",
+                                        "bfa14c0154bcda5ea5a471fd218e3f50"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("3c0123ebdda3b55ea7f1f737d7ae0718", "Features/Calculator.feature", "Reciprocal of 1 is 1", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "a02bc550bcd0c459b73fc0ce35ad8dfd", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "e2674d02fadc73549f0d2a7438293082", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "4897fbe58f1e78569d1efc91ce37fa50"}), "38a7b329f42c6a5e96e410c45a29f5bc", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I take the reciprocal of 1"),
+                                                        "0f13e046f8f41d5d9275cecfd205c012"}), "805706ae1fc2875ba98608f24ffb1bc9", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I take the reciprocal of 1"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "efe16faf3524085d88c01a733cee58a6"}), "7b2e780ad39f645fa8bca4c304a5a849", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 1")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "bd089d387da68f529b6cad2e7b33162d"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("2a8a283df95d64579bbc318948307e2d", "Features/Calculator.feature", "Reciprocal of 2 is 0.5", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "5d40e8ba3c09555ba53d9151d7cd75ed"}), "cf89578fc5782d52b87e1c0f89fc35b3", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 1")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "cd5069c5c2b0bb55b960dce36e0d6a30"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("d98c68528b8a555080839d9edd9221d7", "Features/Calculator.feature", "Reciprocal of 2 is 0.5", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "c94eb418bfba045b8bf8aa2a10b08bdd", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "ae5663c5284efb5f805c40b34d6e2444", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "e5aa4d22b5a76a58b73cbad756c4fbd3"}), "22bec0ccdd28355395117da9753878b2", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I take the reciprocal of 2"),
+                                                        "6db9aac0357d05528aae9a5f8cca8c4f"}), "f3c3195353409e5db5a0c8c7eb32e15e", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I take the reciprocal of 2"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "702e8d5931dd36598ca00b17e516075d"}), "1276eac7dd3e0c538031e2edd7914277", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show \"0.5\"")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "af40424cec48a257be7f9c9d00884797"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("0154a00aedb59a588977ea8b61233c0c", "Features/Calculator.feature", "Reciprocal of zero is undefined", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "9003dce22f9d0c559d3365880cd844de"}), "8488016c7cbcc653a3c73feb8fd2c344", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show \"0.5\"")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "f8bac9e3562cde54888fefdc29fa7739"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("379a5a97dc57f151a97245b1925f09a9", "Features/Calculator.feature", "Reciprocal of zero is undefined", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "14d9684dbe4a0a568ca91d7f173c8157", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "df5abc5d0a3a5055874bfa036ac2f93b", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "fd32a44f6664ce598a975b3ceb21c9aa"}), "ff76b9ce33fb2551ae470405c6c02d11", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I take the reciprocal of 0"),
+                                                        "10866487e34c0b5b96110b982eb9b883"}), "e22be31f65e04752a7eaa81d4fbc8f9f", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I take the reciprocal of 0"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "5092b2f5785f4950ac20cef6ed488199"}), "42a2301633085e51acdf5eac6cf73613", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should contain \"Cannot divide by zero\"")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "44a726476f776551a2220a0d149be820"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("b960ae8f8e309f58b1ff45d0d5f38b66", "Features/Calculator.feature", "Negating a positive number gives a negative result", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "820cbcbf0edebc59848efa3b6b1728ed"}), "cd1f59595bf296549b8df61a6c185cbc", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should contain \"Cannot divide by zero\"")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "cd63fe71d16d69568dfedd06155cf1f1"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("20e3ef81cf01115da1343443c04b9e63", "Features/Calculator.feature", "Negating a positive number gives a negative result", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "94bf4df06f828f5585ffad6f94771e38", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "fd77ce2e3628585a97257b37c078ae0f", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "1d392c67857b375e95c5ee1f14bcfe3e"}), "c74e7a2578ddb757bcbb0e36a1ac970e", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I negate 7"),
+                                                        "61beb86da32d205786b9626ebcb8d189"}), "cd3abbe311b1a155844a8280f48eeb73", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I negate 7"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "6f0e8d836ab3335cafcf76b0067d8fe9"}), "dbf6b73a81217a5da2bc031db83909cf", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show -7")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "556a4546cc18825fa46c1506cfb9a616"})),
-                        new global::Io.Cucumber.Messages.Types.Pickle("e8489fe5e144fd5285ddc09441ad79da", "Features/Calculator.feature", "Negating zero gives zero", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                                        "7115dc64890e6257a1b6da9b5232fac3"}), "61aec68cbd598f5d9d872d6945236509", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show -7")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "104da6acb343ac56b95dea66f2157479"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("b9394cae72867452b360445392d96bb4", "Features/Calculator.feature", "Negating zero gives zero", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "aa2ace005aabdf5082fbc0317bf2a822"}), "9e43981133ff24548e7b769cf095bdf8", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "511688161ebbe05abc35f4c770bcf31a", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "1938f49e311a5e58aa73ad9cf0e12e6b"}), "9942c12745d46c51bff0249a10a5824c", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I negate 0"),
+                                                        "d01fa326df503e5b90d388b0f0a44eda"}), "6b46aa68c434845381fb205743c6fe08", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I negate 0"),
                                         new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
-                                                        "a5840b3c182e2d5783eb5e2bc0e801c8"}), "c896bdbca7083652a7ccb6e2cd9a520c", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 0")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
-                                        "7d75abb0f309ab5a8e36d3d2aae2b5d3"}))});
+                                                        "22c5994eb3d2315885f0d0e0ea9a1824"}), "a01e666dad66e35e9531548f5f2a2274", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 0")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "22db9a024b70f05b8913101ad0a685ae"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("73c3164ed72c075394e9bc826104ea35", "Features/Calculator.feature", "Backspace removes the last digit", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "fffa0884fb07b353ae3a715da8e3c072", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "bbc4313e6048575986b1ccf06ab0d91a"}), "64961fd44e6f075b8b15361b76da6418", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I enter 123"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "4844311a7af9b552b18dc010c0781244"}), "7a67ee0c65f8365f95a62e7d90a8d1a7", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"Backspace\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "ad557689b5afd458a02241ab17db24b0"}), "caecc642cb42325c9597327e274bc47c", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 12")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "04ae6812e423e152b498630b8f763f9a"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("51981fdc3cc89a56b68a5b0572edd1c4", "Features/Calculator.feature", "Backspace on a single digit resets to zero", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "4451277f17ca065db6e5c291cd1a47fa", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "3fdd1986f467565e847f606a5a1c4e08"}), "0b0b6f906c8fa955b7bd03ac80262a6e", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I enter 5"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "a9bbe9601aac80548e847a402ee99c31"}), "d7523fabcc623b52ade7fd5d5b10061d", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"Backspace\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "ad2207e0ecb04e5ea543a99388e51bf2"}), "78923f3459b33452abdefe09353426e0", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 0")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "5cff5ffef309d250a94a759822b9c37b"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("29138f4e289b1957a35985d207247aa2", "Features/Calculator.feature", "Clear Entry preserves the pending operation", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "b022d5ac00c2a351b52fe7e2c817cfa4", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "d6539c5123c2f65482fa852fbe6bd0d2"}), "7eff07a6720cb35f97373d44cbe60c02", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I enter 5"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "76718127395b8c5f96778ff8705ad142"}), "9e6eda2e0d0f9b5fa5290dc696258bee", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"+\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "0780a1825aac1b5aa8612d3b3bc6a9a6"}), "883beab36d4153508290a717882b3e5e", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I enter 9"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "77aa89a4daba35529c15daa65e961d97"}), "f44c8c1374915952906fbcb61854cf49", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"CE\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "7440437e9011d851b1f0e97460a2578d"}), "5b26d8989a9cbd5a9eaf40d83fd5474f", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I enter 3"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "296641af8aaf985d870b19d263948976"}), "23289509c96b6d5e896ca55ad020b3c8", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"=\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "949a2c86e99b41568ab58da94d700c15"}), "e01c2c68484748509519a03bce70b5d1", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 8")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "995514bd40dd2f5a8cc92c562a498ebb"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("97435144c5f65452a5409dc354d2e752", "Features/Calculator.feature", "Clear resets the entire expression", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "13846a08082f895c8e52e5b92ded4ee7", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "77e918dcfac4af5696a1b7c5343b77ee"}), "f5d946aa491ce153870d7cd8588ddeda", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I enter 5"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "fefe8fd189447051a3277dad44f716db"}), "cb919de66e14c759a897fa4fc54a0091", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"+\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "aa9ad7df24801357896053bd3c1af591"}), "69f3ef3e0ee09a53b64afbcc84f77f37", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"C\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "cb1dd6d4361652508efa7856b1986d85"}), "67c90ae61ca3665a9df7e59cce978919", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I enter 3"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "5435a12048f377559dbaee7c385d1c40"}), "e387e596c61fab50a08e74f2a67a54f7", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"=\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "5cadc934dcc7a851aff7e443dde7d066"}), "eab0999b5160e55696635bdf444afd2f", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 3")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "ae9346b8c3c09357a19135e8c0009214"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("17e1bb07174b3d5ca7807868d8ec7ab8", "Features/Calculator.feature", "Percent in a binary context shows the percentage amount", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "c988e6d05617e15f891074f9b1a9a2f5", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "3eee5d5e510a115eab9a76374aeac16a"}), "f68d0c9c01aa2250a6abbc69b57aa9dc", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I enter 200"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "b4e5f4cea25b7f5fabe1fc6d40929821"}), "09b65b2ca1864754b7a4e8ff39440904", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"+\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "4519379de234fc5e980e1f5fa6eeaa0a"}), "50a2beceb4f9ea5faa09588c248afb86", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I enter 10"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "7a7c2ccd0ec7985fa7e013b84ee7c1ce"}), "6026298e8e4e585783f252f086b59664", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"%\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "a504a73e6269bd52a76119f318be057c"}), "9cd3672af6926d5db3e31b91157e590b", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 20")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "c340ef7cc9a6695f865acc9f06bd77b3"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("9e9bea1c9a15b155b24ee6ce695244bf", "Features/Calculator.feature", "Adding a percentage of the base gives correct total", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "d075f2150ba11d57b7b2e986e2991ee5", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "736c6cf7cd91a156a6ded1e3910cb60a"}), "2379cfc191768f519d26ca199f37c5a9", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I enter 200"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "79d13bfe724b7f5587e3b364610e5f9a"}), "e36a7a08b92cae598cca9a733e2e47d0", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"+\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "250a803f20f5f65ea8d25eb42522ce6b"}), "a42e4d8ac423d458be9d8ffd53be7288", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I enter 10"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "8e765730f559ac5b922f077ea40367f0"}), "1c3541d7dcc58f5cb34c302f53e69208", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"%\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "9929eae4450a3d5188a17ecd7963fd81"}), "5b128985bb01d65c904c5f2aacd7c122", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"=\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "7411a48ef611b058be711c6dbac951f3"}), "d1e126acff811c58aa2f745a84337e21", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 220")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "d256757cab7f995e8d312a19ca54623e"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("d137f1e8e740315a948c89bd29ba4d9a", "Features/Calculator.feature", "Entering a decimal number directly", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "c632ac48cf10e057a2b7b41e78d1d346", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "29e7ab0568f246508c18e175bcea9733"}), "f29edb52c8031a55b334d46c30191a02", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I enter 3"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "757c8ca3080e045b9dbaec04e7b23545"}), "a30cecf0ac7c595c8c8bab834845e780", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \".\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "553deacec178485492ff9dda3d69bc93"}), "df67ac3f54c6c359a4e4ce24449c07f9", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I enter 14"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "af7d76962349bb5f9a4aa385c55defbc"}), "43c94edd65e7e65cb4dac8f39f74b983", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show \"3.14\"")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "7652b9cd324ddd589be7e4076ac182f2"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("b1acf1588b98f058a636b1989166b0e9", "Features/Calculator.feature", "Arithmetic with a directly entered decimal number", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "c993ef735e288e54a64799cbe87bc5b8", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "b8cba5586fdb715795fa4c67d73cb479"}), "76e1cb60d595eb549092a80aacd02209", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I enter 3"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "2efe83c1aa82a557bb24f98b416edca6"}), "9b65f6e4888cfa5b8d19caeb0777554f", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \".\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "fa9829920d4ae45d8e930ce375e8169d"}), "8adeda3e90ae3251a52200f7b8704f0e", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I enter 14"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "06d809bfcd0cb35fac083f6f6a30366e"}), "d0d27aa4fa1fbe518f8a5db8a2be3eec", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"+\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "f132ad5ce2ed5f52975d938e83fa5751"}), "19a215b06ba1c753823bb13310343a2f", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I enter 1"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "15ea27243cdf6158b62723ddaf717276"}), "691b329860925d58b9eec5e7bd62f718", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"=\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "f94d1231d1a6e75a923c65b53a83be80"}), "b06c94ba5cd1d358a2b6cb3d9a5e011e", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show \"4.14\"")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "1ab2a9fea509ab5194c1045e4af248b9"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("514ec6e406274f54811fb7c541b25d63", "Features/Calculator.feature", "Chaining subtraction after addition", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "51a26ffc0b1f275aa58d8df168308796", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "f3fc6525a2c3585abc8b4ef59358851e"}), "acb22452fd33fc5c81000d8be18bc6e2", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I add 5 and 3"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "2cbd55b9aa95d7538de7e18bc0eaabfb"}), "bd1156b17ed5cf5c8ff8761071001599", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 8"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "dc494f349e786e52a15ac04c3372ffb4"}), "618dcf2e737071509f9dff6f0a307406", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"-\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "9750974093dbcc5d829d133100670dfe"}), "6ff36744966dbf5185ede416ee1f2f8c", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I enter 2"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "419c2a27bb15aa559ae5e462287b6193"}), "7c271128e630f85293a2054e5b666a09", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"=\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "e6446018b997d656a373cb66b991992f"}), "48bcb2ead5dcfb549977b1d8014edede", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 6")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "7ba308acde6fc05d9ed1672e2acbc1c9"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("2be2ba1b7514525180499797b7237872", "Features/Calculator.feature", "Chaining addition after multiplication", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "3ee8ef354f6bd751aa3c20b314a9c6d3", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "a9ae2094cf378b5ebd633fba6744150c"}), "32fca097d972b357971c852b7d005cae", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I multiply 2 by 3"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "b1f54da30da1515bbd1fde9829ebd26e"}), "ee0b5f7efe5e125c815a993fb03dcd71", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 6"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "44df1ee93ba0a257abce8af66fd65f44"}), "4d799efc1044a4568511fa892ef3a903", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"+\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "281ff1f2d41cf0559c261a68e040200a"}), "8608b98072f7145282538266b985bea1", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I enter 4"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "8b60b1fc77638a5791e664731e0bb887"}), "1517b52e0f4773579667184a90430453", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"=\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "c0539a57ee1f895e9540fca3c3459e0f"}), "10d498a538b29257a3763002459913ef", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 10")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "f1e736d199edc756891fcad030af551f"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("b1a799f7c83a2553a626929ca10424f6", "Features/Calculator.feature", "Memory store and recall", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "1d26bb365cb7645296c3ac487867035e", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "665582d45fc30d50a98cb4869d980873"}), "bbdac1aa68dcb35fb257ee58833e862a", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I add 5 and 3"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "30a700478a69fc58956b0314320017f1"}), "cf2464012c961e519f91013f396a6c39", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"MS\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "a054da95aafb6e55a20e47b9386ae3b2"}), "2a6d4f2b4894b5558adec40b57924d9d", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"C\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "84e3a20026998a5d822ed7a092f2ba76"}), "d038802abae2945ea87a69e727696ff7", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"MR\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "d2ce4e164d3e955b89717eee07c0a601"}), "4e62cd2a5bde605793557a94229b171a", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 8")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "c556f48cbc87cb5a9c099d2ee1b494d8"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("044d4dab5733f755b49ebc587f07b2b5", "Features/Calculator.feature", "Memory add accumulates values", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "eff8f4c0b765dc53bc779730369a1f1c", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "495893978bc5f7569f70bc83690d5e70"}), "557958739ea4e156b015077ba0a8498c", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I enter 5"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "9713d44b05650450b83dd3384d361b45"}), "35567b66bcac415f8938cbc71ed12c48", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"MS\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "8638324bdf988a5a8eb292186f017b0e"}), "1f2de85cec7080558057213f1c002745", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I enter 3"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "3d3be654d782bc5aa31a1ae3aa480943"}), "69bded8c9ccc1a54ba9d66f8558d11c6", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"M+\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "1f6b7a0d248d93589f5da936cc5b47c2"}), "ced453b0a4b8b551a26db57d6d6e446b", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"MR\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "46825bb045482a55b907782c4b585036"}), "0828c465aa805b5391306a1ac966394b", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 8")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "d21020d3f4439c5084e79f4c90bad5a5"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("db0f3e1bde4ecf58abe4a1d7ae67ea9d", "Features/Calculator.feature", "Memory subtract reduces the stored value", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "5f00892aeffa72519077ab2c18e6dacf", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "c8caf3ac6b82be58a387b0cdb61b29e8"}), "29ce7dc0a244205a83e37f94f6e03fae", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I enter 10"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "819e25a3349bdb55bf5fe4f29738890b"}), "0a6c79823fcab65c88f15e9c223bff12", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"MS\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "bfa4f10cc0564d508832396eef847443"}), "dd3c6fbd10db215e8504d3e526e91238", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I enter 3"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "ce51d573fa0ac355bc019abb38f78437"}), "72bbea05e3ed1b5ea590f46cc9266bfa", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"M-\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "fc982f17ceb0fe55976cf593634cc22c"}), "94ebf2b23d98da5ea4dbf4e92c0b48ca", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"MR\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "9eaa5cf5c5dd4a55850c7b1f89b472f0"}), "ff27b5ce04af045ba0be8b7f658cc062", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 7")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "e065eb46e931d25092cc764e2e6076c8"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("8f60e359650cd353b7639a71067bd48d", "Features/Calculator.feature", "Memory store overwrites the previous value", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "ca2110990c8e3a57adb5673587bb5f53", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "09e26e027a367a5db1e6472188dea4f0"}), "f57f3bc887350857b6801193424ae864", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I enter 5"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "ea38242c412a1c5f832b45aaedec3615"}), "18f99d456fa4c05d8b46d02b1626eed4", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"MS\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "fa25d1d8efb2ee57b23d4892a9834548"}), "a5900617b1e8e05cb1e733a835b249c6", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I enter 10"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "cad63ec9835b7e55bd524b1cbe35be96"}), "e7b48fe86128c351af35688cd729f503", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"MS\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "e5093e894446875bac889437d3a97260"}), "772e8f3144c10456aeb46a2405908c60", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"MR\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "d25152c58f95695b992362b4ba9f686a"}), "aebfa8df0208fb51b75d99936fc79f87", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 10")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "e22c365a85b9ec5583300791b5b51bc8"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("d81fe140481623568e4c768a632543d8", "Features/Calculator.feature", "Memory clear then store a new value", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "757d33a35dd7a45685a351067121795f", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "25e7ecb558ebbd5496db3a596705ce15"}), "8b895420bc6ba258b4f5ab5060ff7608", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I enter 5"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "c9451400106a985a8f8051e744d21228"}), "6974bbae4e39265da53f6215bd127cbb", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"MS\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "4993c2afd5693f5988fe756e24f2ca45"}), "1559568bc8055e5c8bdd56b6cd9d30cd", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"MC\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "cacb632f527ced5f8b214795e8ef80fa"}), "d6bdadf18a6ea652b408964cb286a85d", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I enter 3"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "4c6d7cc3a5fd9659aa46caf338e9a7a0"}), "273b79ea1f306d5ea9cfeacd36819842", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"MS\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "64302eb8d3a00153b5dba5ea7b6ce1fb"}), "b229f6e2f9e59355bed818672949a4c8", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"MR\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "bafad65c103408538f2e586acf4cf551"}), "b10a777c283d5456989cc6e09492157b", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 3")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "aeb678750f268e549ddb01d2f054c76d"})),
+                        new global::Io.Cucumber.Messages.Types.Pickle("5e1ba148350fe258a30e5ecf050b732a", "Features/Calculator.feature", "Memory add multiple times accumulates correctly", "en-US", new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleStep>(new global::Io.Cucumber.Messages.Types.PickleStep[] {
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "a2a776ce5aaa5258be4bb252f846e5d9"}), "4734ffb1e905515185fc51113e94ac23", global::Io.Cucumber.Messages.Types.PickleStepType.CONTEXT, "the Calculator application is open"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "b1678cbe0d2c5f5c935e62c063b8a2bb"}), "7e1d92cc31e8ab5face65491a0e9753b", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I enter 5"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "4f34b94fe1421d54b1ff19097a47e70c"}), "46192c4588664350b689cdfceac6c788", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"MS\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "a94d51e7d9530c5891073aff1cb334bf"}), "b3595f0be54a315183532b56f5a3af21", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I enter 5"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "34f17b696c1c6e57af0b9bf41c22715d"}), "b5e51d2e3356335e82aa3f8fd840c771", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"M+\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "3e646ff312789e51b5ce58ee4dcf1bf1"}), "118fa2e345fa9c559c31cd8b777f879e", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I enter 5"),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "e80cc23170b30d5286ff2390a9b187f0"}), "47adb162b7ca535fb4db729a9e24d6c3", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"M+\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "f46bcfdad1d4685d8eb538cce4881c5a"}), "629da134db394957aaddb04e679a02dd", global::Io.Cucumber.Messages.Types.PickleStepType.ACTION, "I press \"MR\""),
+                                        new global::Io.Cucumber.Messages.Types.PickleStep(null, new System.Collections.Generic.List<string>(new string[] {
+                                                        "1e08956cf5389658a2104ee8144b0818"}), "0035de18bf4f335d8d9558cb9c7e3383", global::Io.Cucumber.Messages.Types.PickleStepType.OUTCOME, "the display should show 15")}), new System.Collections.Generic.List<global::Io.Cucumber.Messages.Types.PickleTag>(new global::Io.Cucumber.Messages.Types.PickleTag[0]), new System.Collections.Generic.List<string>(new string[] {
+                                        "db33eb75cd6ea95d92b30b53e0898d66"}))});
         }
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
@@ -1611,6 +2010,711 @@ namespace CalcAutomation.BDD.Features
 #line hidden
 #line 162
     await testRunner.ThenAsync("the display should show 0", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Backspace removes the last digit")]
+        public async global::System.Threading.Tasks.Task BackspaceRemovesTheLastDigit()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "34";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Backspace removes the last digit", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 166
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 6
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 167
+    await testRunner.WhenAsync("I enter 123", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 168
+    await testRunner.WhenAsync("I press \"Backspace\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 169
+    await testRunner.ThenAsync("the display should show 12", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Backspace on a single digit resets to zero")]
+        public async global::System.Threading.Tasks.Task BackspaceOnASingleDigitResetsToZero()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "35";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Backspace on a single digit resets to zero", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 171
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 6
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 172
+    await testRunner.WhenAsync("I enter 5", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 173
+    await testRunner.WhenAsync("I press \"Backspace\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 174
+    await testRunner.ThenAsync("the display should show 0", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Clear Entry preserves the pending operation")]
+        public async global::System.Threading.Tasks.Task ClearEntryPreservesThePendingOperation()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "36";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Clear Entry preserves the pending operation", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 176
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 6
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 177
+    await testRunner.WhenAsync("I enter 5", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 178
+    await testRunner.WhenAsync("I press \"+\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 179
+    await testRunner.WhenAsync("I enter 9", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 180
+    await testRunner.WhenAsync("I press \"CE\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 181
+    await testRunner.WhenAsync("I enter 3", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 182
+    await testRunner.WhenAsync("I press \"=\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 183
+    await testRunner.ThenAsync("the display should show 8", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Clear resets the entire expression")]
+        public async global::System.Threading.Tasks.Task ClearResetsTheEntireExpression()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "37";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Clear resets the entire expression", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 185
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 6
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 186
+    await testRunner.WhenAsync("I enter 5", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 187
+    await testRunner.WhenAsync("I press \"+\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 188
+    await testRunner.WhenAsync("I press \"C\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 189
+    await testRunner.WhenAsync("I enter 3", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 190
+    await testRunner.WhenAsync("I press \"=\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 191
+    await testRunner.ThenAsync("the display should show 3", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Percent in a binary context shows the percentage amount")]
+        public async global::System.Threading.Tasks.Task PercentInABinaryContextShowsThePercentageAmount()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "38";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Percent in a binary context shows the percentage amount", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 195
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 6
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 196
+    await testRunner.WhenAsync("I enter 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 197
+    await testRunner.WhenAsync("I press \"+\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 198
+    await testRunner.WhenAsync("I enter 10", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 199
+    await testRunner.WhenAsync("I press \"%\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 200
+    await testRunner.ThenAsync("the display should show 20", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Adding a percentage of the base gives correct total")]
+        public async global::System.Threading.Tasks.Task AddingAPercentageOfTheBaseGivesCorrectTotal()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "39";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Adding a percentage of the base gives correct total", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 202
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 6
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 203
+    await testRunner.WhenAsync("I enter 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 204
+    await testRunner.WhenAsync("I press \"+\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 205
+    await testRunner.WhenAsync("I enter 10", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 206
+    await testRunner.WhenAsync("I press \"%\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 207
+    await testRunner.WhenAsync("I press \"=\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 208
+    await testRunner.ThenAsync("the display should show 220", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Entering a decimal number directly")]
+        public async global::System.Threading.Tasks.Task EnteringADecimalNumberDirectly()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "40";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Entering a decimal number directly", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 212
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 6
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 213
+    await testRunner.WhenAsync("I enter 3", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 214
+    await testRunner.WhenAsync("I press \".\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 215
+    await testRunner.WhenAsync("I enter 14", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 216
+    await testRunner.ThenAsync("the display should show \"3.14\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Arithmetic with a directly entered decimal number")]
+        public async global::System.Threading.Tasks.Task ArithmeticWithADirectlyEnteredDecimalNumber()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "41";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Arithmetic with a directly entered decimal number", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 218
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 6
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 219
+    await testRunner.WhenAsync("I enter 3", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 220
+    await testRunner.WhenAsync("I press \".\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 221
+    await testRunner.WhenAsync("I enter 14", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 222
+    await testRunner.WhenAsync("I press \"+\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 223
+    await testRunner.WhenAsync("I enter 1", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 224
+    await testRunner.WhenAsync("I press \"=\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 225
+    await testRunner.ThenAsync("the display should show \"4.14\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Chaining subtraction after addition")]
+        public async global::System.Threading.Tasks.Task ChainingSubtractionAfterAddition()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "42";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Chaining subtraction after addition", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 229
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 6
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 230
+    await testRunner.WhenAsync("I add 5 and 3", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 231
+    await testRunner.ThenAsync("the display should show 8", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 232
+    await testRunner.WhenAsync("I press \"-\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 233
+    await testRunner.WhenAsync("I enter 2", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 234
+    await testRunner.WhenAsync("I press \"=\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 235
+    await testRunner.ThenAsync("the display should show 6", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Chaining addition after multiplication")]
+        public async global::System.Threading.Tasks.Task ChainingAdditionAfterMultiplication()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "43";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Chaining addition after multiplication", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 237
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 6
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 238
+    await testRunner.WhenAsync("I multiply 2 by 3", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 239
+    await testRunner.ThenAsync("the display should show 6", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 240
+    await testRunner.WhenAsync("I press \"+\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 241
+    await testRunner.WhenAsync("I enter 4", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 242
+    await testRunner.WhenAsync("I press \"=\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 243
+    await testRunner.ThenAsync("the display should show 10", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Memory store and recall")]
+        public async global::System.Threading.Tasks.Task MemoryStoreAndRecall()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "44";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Memory store and recall", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 247
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 6
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 248
+    await testRunner.WhenAsync("I add 5 and 3", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 249
+    await testRunner.WhenAsync("I press \"MS\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 250
+    await testRunner.WhenAsync("I press \"C\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 251
+    await testRunner.WhenAsync("I press \"MR\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 252
+    await testRunner.ThenAsync("the display should show 8", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Memory add accumulates values")]
+        public async global::System.Threading.Tasks.Task MemoryAddAccumulatesValues()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "45";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Memory add accumulates values", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 254
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 6
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 255
+    await testRunner.WhenAsync("I enter 5", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 256
+    await testRunner.WhenAsync("I press \"MS\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 257
+    await testRunner.WhenAsync("I enter 3", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 258
+    await testRunner.WhenAsync("I press \"M+\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 259
+    await testRunner.WhenAsync("I press \"MR\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 260
+    await testRunner.ThenAsync("the display should show 8", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Memory subtract reduces the stored value")]
+        public async global::System.Threading.Tasks.Task MemorySubtractReducesTheStoredValue()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "46";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Memory subtract reduces the stored value", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 262
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 6
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 263
+    await testRunner.WhenAsync("I enter 10", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 264
+    await testRunner.WhenAsync("I press \"MS\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 265
+    await testRunner.WhenAsync("I enter 3", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 266
+    await testRunner.WhenAsync("I press \"M-\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 267
+    await testRunner.WhenAsync("I press \"MR\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 268
+    await testRunner.ThenAsync("the display should show 7", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Memory store overwrites the previous value")]
+        public async global::System.Threading.Tasks.Task MemoryStoreOverwritesThePreviousValue()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "47";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Memory store overwrites the previous value", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 270
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 6
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 271
+    await testRunner.WhenAsync("I enter 5", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 272
+    await testRunner.WhenAsync("I press \"MS\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 273
+    await testRunner.WhenAsync("I enter 10", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 274
+    await testRunner.WhenAsync("I press \"MS\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 275
+    await testRunner.WhenAsync("I press \"MR\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 276
+    await testRunner.ThenAsync("the display should show 10", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Memory clear then store a new value")]
+        public async global::System.Threading.Tasks.Task MemoryClearThenStoreANewValue()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "48";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Memory clear then store a new value", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 278
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 6
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 279
+    await testRunner.WhenAsync("I enter 5", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 280
+    await testRunner.WhenAsync("I press \"MS\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 281
+    await testRunner.WhenAsync("I press \"MC\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 282
+    await testRunner.WhenAsync("I enter 3", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 283
+    await testRunner.WhenAsync("I press \"MS\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 284
+    await testRunner.WhenAsync("I press \"MR\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 285
+    await testRunner.ThenAsync("the display should show 3", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Memory add multiple times accumulates correctly")]
+        public async global::System.Threading.Tasks.Task MemoryAddMultipleTimesAccumulatesCorrectly()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "49";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Memory add multiple times accumulates correctly", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 287
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 6
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 288
+    await testRunner.WhenAsync("I enter 5", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 289
+    await testRunner.WhenAsync("I press \"MS\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 290
+    await testRunner.WhenAsync("I enter 5", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 291
+    await testRunner.WhenAsync("I press \"M+\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 292
+    await testRunner.WhenAsync("I enter 5", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 293
+    await testRunner.WhenAsync("I press \"M+\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 294
+    await testRunner.WhenAsync("I press \"MR\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 295
+    await testRunner.ThenAsync("the display should show 15", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
