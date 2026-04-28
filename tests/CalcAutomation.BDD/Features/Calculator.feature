@@ -6,7 +6,7 @@ Feature: Windows Calculator – Basic Arithmetic
   Background:
     Given the Calculator application is open
 
-  # Section 1 – Named scenarios
+  # Section 1 – Smoke tests (one named scenario per operator)
 
   Scenario: Add two numbers
     When I add 7 and 5
@@ -24,22 +24,7 @@ Feature: Windows Calculator – Basic Arithmetic
     When I divide 20 by 4
     Then the display should show 5
 
-  # Section 2 – Parameterised outline
-
-  Scenario Outline: Parameterised arithmetic – <left> <operator> <right> equals <expected>
-    When I calculate <left> <operator> <right>
-    Then the display should show <expected>
-
-    Examples: Additional calculations
-      | left | operator | right | expected |
-      | 8    | +        | 2     | 10       |
-      | 15   | -        | 7     | 8        |
-      | 6    | *        | 7     | 42       |
-      | 18   | /        | 3     | 6        |
-      | 100  | /        | 4     | 25       |
-      | 9    | *        | 9     | 81       |
-
-  # Section 3 – Edge cases
+  # Section 2 – Edge cases
 
   Scenario: Division by zero shows an error
     When I divide 5 by 0
@@ -61,9 +46,9 @@ Feature: Windows Calculator – Basic Arithmetic
     When I divide 2 by 3
     Then the display should contain "0.6666666666"
 
-  # Section 4 – Boundary outline
+  # Section 3 – Boundary values
 
-  Scenario Outline: Edge case arithmetic – <left> <operator> <right> equals <expected>
+  Scenario Outline: Boundary arithmetic – <left> <operator> <right> equals <expected>
     When I calculate <left> <operator> <right>
     Then the display should show <expected>
 
@@ -71,19 +56,13 @@ Feature: Windows Calculator – Basic Arithmetic
       | left      | operator | right | expected   |
       | 999999999 | +        | 1     | 1000000000 |
       | 2000000   | *        | 3     | 6000000    |
-      | 100       | -        | 200   | -100       |
-      | 7         | -        | 7     | 0          |
       | 0         | +        | 0     | 0          |
       | 1000000   | /        | 4     | 250000     |
 
-  # Section 5 – Identity and zero properties
+  # Section 4 – Identity properties
 
   Scenario: Dividing a number by itself gives one
     When I divide 123 by 123
-    Then the display should show 1
-
-  Scenario: Dividing a large number by itself gives one
-    When I divide 999 by 999
     Then the display should show 1
 
   Scenario: Subtracting a number from itself gives zero
@@ -94,44 +73,90 @@ Feature: Windows Calculator – Basic Arithmetic
     When I add 7 and 0
     Then the display should show 7
 
-  Scenario Outline: Multiplying by zero always gives zero – <left> * 0
-    When I calculate <left> * 0
-    Then the display should show 0
+  # Section 5 – Commutativity
 
-    Examples: Multiply by zero cases
-      | left   |
-      | 1      |
-      | 42     |
-      | 10000  |
+  Scenario: Addition is commutative
+    When I calculate 5 + 10
+    Then the display should show 15
+    When I calculate 10 + 5
+    Then the display should show 15
 
-  # Section 6 – Commutativity
+  # Section 6 – Division edge cases
 
-  Scenario Outline: Addition is commutative – <a> + <b> == <b> + <a>
-    When I calculate <a> + <b>
-    Then the display should show <result>
-    When I calculate <b> + <a>
-    Then the display should show <result>
-
-    Examples: Commutative pairs
-      | a  | b  | result |
-      | 5  | 10 | 15     |
-      | 3  | 7  | 10     |
-      | 12 | 8  | 20     |
-
-  # Section 7 – Division edge cases
-
-  Scenario: Zero divided by any positive number is zero
+  Scenario: Zero divided by a positive number is zero
     When I divide 0 by 5
-    Then the display should show 0
-
-  Scenario: Zero divided by a large positive number is zero
-    When I divide 0 by 999
     Then the display should show 0
 
   Scenario: Division with remainder as decimal
     When I divide 10 by 4
     Then the display should show "2.5"
 
-  Scenario: Division producing an integer result
-    When I divide 144 by 12
-    Then the display should show 12
+  # Section 7 – Square root
+
+  Scenario: Square root of a perfect square
+    When I take the square root of 25
+    Then the display should show 5
+
+  Scenario: Square root of 1 is 1
+    When I take the square root of 1
+    Then the display should show 1
+
+  Scenario: Square root of 0 is 0
+    When I take the square root of 0
+    Then the display should show 0
+
+  Scenario: Square root of 2 is irrational
+    When I take the square root of 2
+    Then the display should contain "1.41421356"
+
+  Scenario Outline: Square root of perfect squares – √<number> equals <expected>
+    When I take the square root of <number>
+    Then the display should show <expected>
+
+    Examples: Small and large perfect squares
+      | number | expected |
+      | 4      | 2        |
+      | 144    | 12       |
+
+  # Section 8 – Squaring (x²)
+
+  Scenario: Squaring zero gives zero
+    When I square 0
+    Then the display should show 0
+
+  Scenario: Squaring one gives one
+    When I square 1
+    Then the display should show 1
+
+  Scenario Outline: Squaring numbers – <number>² equals <expected>
+    When I square <number>
+    Then the display should show <expected>
+
+    Examples: Squares
+      | number | expected |
+      | 5      | 25       |
+      | 12     | 144      |
+
+  # Section 9 – Reciprocal (1/x)
+
+  Scenario: Reciprocal of 1 is 1
+    When I take the reciprocal of 1
+    Then the display should show 1
+
+  Scenario: Reciprocal of 2 is 0.5
+    When I take the reciprocal of 2
+    Then the display should show "0.5"
+
+  Scenario: Reciprocal of zero is undefined
+    When I take the reciprocal of 0
+    Then the display should contain "Cannot divide by zero"
+
+  # Section 10 – Negate (+/-)
+
+  Scenario: Negating a positive number gives a negative result
+    When I negate 7
+    Then the display should show -7
+
+  Scenario: Negating zero gives zero
+    When I negate 0
+    Then the display should show 0

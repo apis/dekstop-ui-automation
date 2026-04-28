@@ -44,6 +44,18 @@ public sealed class CalculatorSteps
     public void WhenTheUserCalculates(int left, string op, int right) =>
         WhenICalculate(left, op, right);
 
+    [When("I take the square root of {int}")]
+    public void WhenITakeSquareRootOf(int n) => ComputeUnary(n, "√");
+
+    [When("I square {int}")]
+    public void WhenISquare(int n) => ComputeUnary(n, "x²");
+
+    [When("I take the reciprocal of {int}")]
+    public void WhenITakeReciprocalOf(int n) => ComputeUnary(n, "1/x");
+
+    [When("I negate {int}")]
+    public void WhenINegate(int n) => ComputeUnary(n, "+/-");
+
     [When("I enter {int}")]
     public void WhenIEnter(int number)
     {
@@ -114,6 +126,13 @@ public sealed class CalculatorSteps
         // The display's accessibility Name is "Display is <value>" — strip the prefix.
         const string prefix = "Display is ";
         return raw.StartsWith(prefix, StringComparison.OrdinalIgnoreCase) ? raw[prefix.Length..] : raw;
+    }
+
+    private void ComputeUnary(int n, string op)
+    {
+        var refs = _ctx.SnapshotAndIndex();
+        var keys = CalculatorContext.ToDigits(n).Append(op).ToArray();
+        _ctx.PressSequence(refs, keys);
     }
 
     private void Compute(int left, string op, int right)

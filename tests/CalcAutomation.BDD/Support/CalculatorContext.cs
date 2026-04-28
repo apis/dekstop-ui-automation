@@ -21,7 +21,10 @@ public class CalculatorContext
             ["Eight"] = "8", ["Nine"] = "9",
             ["Plus"] = "+",  ["Minus"] = "-",
             ["Multiply by"] = "×", ["Divide by"] = "÷",
-            ["Equals"] = "=", ["Clear entry"] = "CE", ["Clear"] = "C"
+            ["Equals"] = "=", ["Clear entry"] = "CE", ["Clear"] = "C",
+            ["Square root"] = "√", ["Square"] = "x²",
+            ["Reciprocal"] = "1/x", ["Positive negative"] = "+/-",
+            ["Percent"] = "%",
         };
 
     /// <summary>
@@ -57,7 +60,9 @@ public class CalculatorContext
                 refs["display"] = refId;
 
             foreach (var (alias, key) in ButtonAliases)
-                if (name.StartsWith(alias, StringComparison.OrdinalIgnoreCase))
+                if (name.StartsWith(alias, StringComparison.OrdinalIgnoreCase) &&
+                    (name.Length == alias.Length ||
+                     (alias.Contains(' ') && char.IsWhiteSpace(name[alias.Length]))))
                     refs[key] = refId;
         }
 
